@@ -1,103 +1,76 @@
 import Image from "next/image";
 
+import FilterCard from "@/components/main/filter-card";
+import IconCard from "@/components/main/icon-card";
+import { Button } from "@/components/ui/button";
+import HomeCarousel from "@/components/main/home-carouel";
+
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div>
+      <div className="relative">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/assets/images/cover.jpg"
+          width={1500}
+          height={300}
+          alt="Дайгаад явъя"
+          className="w-full h-72 object-cover"
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="absolute top-0 left-0 w-full h-full bg-[#FFB30000]/90 flex justify-center items-center">
+          <span
+            className="text-5xl text-white dark:text-gray-800 font-bold px-4 py-2 rounded"
+            style={{
+              fontFamily: "Montserrat, Arial, sans-serif",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Хамтдаа явъя хямдхан, ухаалаг, ээлтэй!
+          </span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <FilterCard />
+      </div>
+      <div className="max-w-max mx-20 xl:max-w-7xl xl:mx-auto mt-20">
+        <div className="flex flex-wrap gap-3 justify-between">
+          <IconCard
+            icon="iconoir:coins"
+            title="Хамгийн хямд үнээр өөрийн аяллаа өөрөө сонго"
+            content="Та олон чиглэлийн дундаас өөрт хамгийн тохирсон аяллаа олж, хамгийн бага зардлаар хүрэх боломжтой."
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <IconCard
+            icon="hugeicons:student-card"
+            title="Хэнтэй хамт явж байгаагаа мэдэж, сэтгэл амар аялаарай"
+            content="Бид таны хамт аялах хүмүүс болон жолооч тээвэрлэгчдийн үнэн бодит мэдээллээр хангана."
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <IconCard
+            icon="hugeicons:flash"
+            title="Хэдхэн товшилтоор захиалаад шууд хөдөл!"
+            content="Аяллаа захиалах нь таны төсөөлж байснаас ч амархан. та хэдхэн товч дараад л хормын дотор танд ойрхон байгаа жолоочийг олно."
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+        <div className="mx-auto max-w-max mt-10">
+          <div className="flex flex-col lg:flex-row ">
+            <Image
+              src="/assets/images/home-pic.svg"
+              width={366}
+              height={237}
+              alt="Аваад явъя"
+            />
+            <div className="p-8 flex flex-col justify-center items-center max-w-[500px] gap-5">
+              <p className="text-xl font-semibold">
+                Жолооны ард байхдаа ч мөнгөө хэмнэ
+              </p>
+              <span className="text-justify">
+                "Жолоочийн профайл үүсгээд анхны аяллаа нийтэл - хамт явах
+                зорчигчоо олоод, бензинд зарцуулах зардлаа хуваалц! Одоо замд
+                гарахад бэлэн үү?"
+              </span>
+              <Button type="button" variant="default" size="lg">
+                Аялал нэмэх
+              </Button>
+            </div>
+          </div>
+        </div>
+        <HomeCarousel />
+      </div>
     </div>
   );
 }
