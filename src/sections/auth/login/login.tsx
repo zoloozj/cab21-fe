@@ -1,8 +1,11 @@
 "use client";
 
 import { z } from "zod";
+import Link from "next/link";
 import { toast } from "sonner";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Loader2Icon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
@@ -10,9 +13,6 @@ import { Button } from "@/components/ui/button";
 import RHFInput from "@/components/hook-form/rhf-input";
 import Iconify from "@/components/ui/iconify";
 import PasswordInput from "@/app/auth/components/password-input";
-import Link from "next/link";
-import { Loader2Icon } from "lucide-react";
-import { useState } from "react";
 
 const FormSchema = z.object({
   username: z.string().min(2, { message: "" }),
@@ -41,7 +41,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col px-8 justify-start w-full">
+    <div className="flex flex-col px-12 justify-start w-full sm:max-w-96">
       <p className="text-xl font-bold">Нэвтрэх</p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
@@ -59,7 +59,7 @@ export default function Login() {
             />
           </div>
           <PasswordInput name="password" />
-          <div className="w-full flex justify-between items-center mt-4 text-sm">
+          <div className="w-full flex justify-between items-center mt-6 text-xs">
             <span className="text-gray-500">Нэвтрэх нэр сануулах</span>
             <Link href="" className="text-[#FFB300]">
               Нууц үг мартсан?
@@ -69,7 +69,7 @@ export default function Login() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="mt-10 h-15 px-20 text-white font-bold text-lg rounded-xl "
+              className="mt-10 h-12 px-16 text-white font-bold text-lg rounded-xl cursor-pointer"
             >
               {isLoading ? <Loader2Icon className="animate-spin" /> : "Нэвтрэх"}
             </Button>

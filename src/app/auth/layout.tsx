@@ -11,9 +11,10 @@ export default function AuthLayout({
       <section className="h-full flex flex-col items-center justify-evenly">
         <Image
           src="/assets/logo2.svg"
-          width={300}
+          width={250}
           height={200}
           alt="Аваад явъя"
+          className="md:w-60"
         />
         {children}
         <ToggleLoginRegisterBtn />
