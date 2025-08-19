@@ -5,9 +5,13 @@ import RHFInput from "@/components/hook-form/rhf-input";
 
 interface Props {
   name: string;
+  placeholder?: string;
 }
 
-export default function PasswordInput({ name }: Props) {
+export default function PasswordInput({
+  name,
+  placeholder = "Нууц үг",
+}: Props) {
   const [show, setShow] = useState(false);
   const toggle = useCallback(() => {
     setShow(!show);
@@ -23,8 +27,8 @@ export default function PasswordInput({ name }: Props) {
       <RHFInput
         name={name}
         type={show ? "text" : "password"}
-        placeholder="Нууц үг"
-        className="px-10 py-2 text-md w-full h-12"
+        placeholder={placeholder}
+        className="px-10 py-2 text-md w-full h-12 bg-white"
       />
       <Iconify
         width={20}

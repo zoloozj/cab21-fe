@@ -7,13 +7,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
 import PasswordForm from "@/sections/components/password-form";
-import MainInfo from "@/sections/auth/register/driver/main-info";
+import PassengerMainInfo from "@/sections/auth/register/passenger/main-info";
 
 const FormSchema = z.object({
   phone: z.string().min(2, { message: "" }),
 });
 
-export default function DriverRegisterForm() {
+export default function PassengerRegisterForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -30,10 +30,10 @@ export default function DriverRegisterForm() {
   const [step, setStep] = useState(1);
 
   return (
-    <div className="flex flex-col px-12 justify-start mx-auto items-center w-full sm:max-w-xl py-10 h-screen">
+    <div className="flex flex-col px-12 justify-start w-full mx-auto sm:max-w-xl py-10 h-screen">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full h-full">
-          {step === 1 && <MainInfo setStep={setStep} />}
+          {step === 1 && <PassengerMainInfo setStep={setStep} />}
           {step === 2 && (
             <PasswordForm setStep={setStep} isLoading={isLoading} />
           )}

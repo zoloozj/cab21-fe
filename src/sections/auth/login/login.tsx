@@ -55,7 +55,7 @@ export default function Login() {
             <RHFInput
               name="username"
               placeholder="Нэвтрэх нэр"
-              className="pl-10 py-4 h-12"
+              className="pl-10 py-4 h-12 bg-white"
             />
           </div>
           <PasswordInput name="password" />

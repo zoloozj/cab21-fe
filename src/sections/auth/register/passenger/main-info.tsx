@@ -4,12 +4,13 @@ import Image from "next/image";
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import IconInput from "@/components/main/icon-input";
+import RHFSelect from "@/components/hook-form/rhf-select";
 
 interface Props {
   setStep: (a: number) => void;
 }
 
-export default function MainInfo({ setStep }: Props) {
+export default function PassengerMainInfo({ setStep }: Props) {
   return (
     <div className="h-full flex flex-col">
       <div className="h-full">
@@ -29,7 +30,6 @@ export default function MainInfo({ setStep }: Props) {
               width={100}
               height={100}
               alt="Аваад явий"
-              className=""
             />
           </div>
         </div>
@@ -51,26 +51,20 @@ export default function MainInfo({ setStep }: Props) {
           placeholder="Нэр"
         />
         <IconInput
-          icon="f7:number"
-          name="vehicleNumber"
-          placeholder="Авто машины улсын дугаар"
+          icon="ant-design:number-outlined"
+          name="age"
+          placeholder="Нас"
         />
-        <IconInput
-          icon="fluent:vehicle-car-profile-20-regular"
-          name="vehicleMark"
-          placeholder="Авто машины марк"
+        <RHFSelect
+          icon="streamline-ultimate:gender-hetero"
+          name="gender"
+          placeholder="Хүйс"
+          options={[
+            { label: "Эрэгтэй", value: "male" },
+            { label: "Эмэгтэй", value: "female" },
+          ]}
         />
-        <IconInput
-          icon="fluent:vehicle-bus-24-regular"
-          name="vehicleType"
-          placeholder="Авто машины төрөл"
-        />
-        <IconInput
-          icon="fluent-mdl2:color"
-          name="vehicleColor"
-          placeholder="Авто машины өнгө"
-        />
-      </div>
+      </div>{" "}
       <div className="text-center w-full">
         <Button
           type="button"
