@@ -18,7 +18,7 @@ export default function Home() {
         />
         <div className="absolute top-0 left-0 w-full h-full bg-[#FFB30000]/90 flex justify-center items-center">
           <span
-            className="text-5xl text-white dark:text-gray-800 font-bold px-4 py-2 rounded"
+            className="text-xl md:text-3xl lg:text-5xl text-white dark:text-gray-800 font-bold px-4 py-2 rounded"
             style={{
               fontFamily: "Montserrat, Arial, sans-serif",
             }}
@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <FilterCard />
       </div>
-      <div className="max-w-max mx-20 xl:max-w-7xl xl:mx-auto mt-20">
+      <div className="max-w-max mx-4 xl:max-w-7xl xl:mx-auto mt-20">
         <div className="flex flex-wrap gap-3 justify-between">
           <IconCard
             icon="iconoir:coins"

@@ -17,7 +17,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -36,7 +35,7 @@ interface Option {
 type Props = {
   name: string;
   placeholder?: string;
-  options: any[];
+  options: Option[];
   icon?: string;
 };
 

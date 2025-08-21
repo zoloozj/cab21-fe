@@ -20,11 +20,11 @@ export default function IconButton({
   return (
     <Button
       variant="ghost"
-      className={cn("flex gap-2 items-top", right && "flex-row-reverse")}
+      className={cn("flex gap-1 items-top", right && "flex-row-reverse")}
       size={size}
     >
       <Iconify icon={icon} color={color} />
-      {title}
+      <span className="hidden md:block">{title}</span>
     </Button>
   );
 }

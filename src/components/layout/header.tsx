@@ -6,10 +6,11 @@ import IconButton from "@/components/ui/icon-button";
 
 export default function Header() {
   return (
-    <div className="py-6 px-[300px] m-0 bg-white dark:bg-gray-800">
-      <div className="m-0 flex justify-between">
+    <div className="py-3 md:py-6 px-4 xl:px-[300px] m-0 bg-white dark:bg-gray-800">
+      {/* Web Header */}
+      <div className="m-0 justify-between hidden md:flex">
         <Image
-          className="dark:invert"
+          className="dark:invert hidden md:block"
           src="/assets/logo.svg"
           alt="Cab21 logo"
           width={180}
@@ -19,11 +20,6 @@ export default function Header() {
         <div className="flex gap-2">
           <IconButton icon="solar:magnifer-linear" title="Хайх" />
           <IconButton icon="solar:add-circle-linear" title=" Зар оруулах" />
-
-          <Button variant="ghost" className="flex gap-2 items-center" size="lg">
-            <Iconify icon="solar:add-circle-linear" />
-            Зар оруулах
-          </Button>
           <Button variant="ghost" className="flex gap-2 items-center" size="lg">
             <Image
               className="dark:invert"
@@ -35,6 +31,30 @@ export default function Header() {
             />
             <Iconify icon="solar:alt-arrow-down-linear" color="#667085" />
           </Button>
+        </div>
+      </div>
+      {/* Mobile Header */}
+      <div className="flex md:hidden justify-between m-0 items-center">
+        <Button variant="ghost" className="flex gap-2 items-center" size="lg">
+          <Image
+            className="dark:invert"
+            src="/assets/profile.svg"
+            alt="Cab21 logo"
+            width={30}
+            height={30}
+            priority
+          />
+          <Iconify icon="solar:alt-arrow-down-linear" color="#667085" />
+        </Button>
+        <Image
+          src="/assets/logo2.svg"
+          width={100}
+          height={100}
+          alt="Аваад явий"
+        />
+        <div className="flex items-center">
+          <IconButton icon="solar:magnifer-linear" title="Хайх" />
+          <IconButton icon="solar:add-circle-linear" title=" Зар оруулах" />
         </div>
       </div>
     </div>
