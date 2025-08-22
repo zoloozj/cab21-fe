@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import RHFCombo from "@/components/hook-form/rhf-combo";
 import RHFRadio from "@/components/hook-form/rhf-radio";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import PrevNextBtn from "./prev-next-btn";
 
 interface Props {
   setStep: (a: number) => void;
@@ -11,10 +12,6 @@ interface Props {
 
 export default function FromSelect({ setStep }: Props) {
   const { watch } = useFormContext();
-
-  const nextPage = () => {
-    setStep(2);
-  };
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -37,9 +34,7 @@ export default function FromSelect({ setStep }: Props) {
           parent="Төв аймаг"
         />
       </ScrollArea>
-      <Button className="h-12" onClick={nextPage}>
-        Дараах
-      </Button>
+      <PrevNextBtn step={1} setStep={setStep} firstPage />
     </div>
   );
 }

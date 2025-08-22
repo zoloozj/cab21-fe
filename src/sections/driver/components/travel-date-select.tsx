@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/form";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import PrevNextBtn from "./prev-next-btn";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import RHFInput from "@/components/hook-form/rhf-input";
 
 interface Props {
   setStep: (a: number) => void;
@@ -18,47 +21,55 @@ interface Props {
 
 export default function TravelDateSelect({ setStep }: Props) {
   const { control } = useFormContext();
-  const nextPage = () => {
-    setStep(4);
-  };
+
   return (
     <div className="flex flex-col h-full overflow-hidden text-center">
       <p className="font-semibold my-4">Та хэзээ явхаар төлөвлөж байна вэ?</p>
-      <FormField
-        control={control}
-        name="travelDate"
-        render={({ field }) => (
-          <FormItem className="flex flex-col">
-            <FormControl>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-[240px] mx-auto text-left font-normal",
-                  !field.value && "text-muted-foreground"
-                )}
-              >
-                {field.value ? (
-                  format(field.value, "dd/MM/yyyy")
-                ) : (
-                  <span>Өдөр сонгоно уу!</span>
-                )}
-              </Button>
-            </FormControl>
-            <Calendar
-              mode="single"
-              selected={field.value}
-              onSelect={field.onChange}
-              disabled={(date) => date < new Date()}
-              captionLayout="dropdown"
-              className="w-full mb-5"
-            />
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <Button className="h-12" onClick={nextPage}>
-        Дараах
-      </Button>
+      <ScrollArea className="flex-1 min-h-0 py-2">
+        <FormField
+          control={control}
+          name="travelDate"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormControl>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[240px] mx-auto text-left font-normal",
+                    !field.value && "text-muted-foreground"
+                  )}
+                >
+                  {field.value ? (
+                    format(field.value, "dd/MM/yyyy")
+                  ) : (
+                    <span>Өдөр сонгоно уу!</span>
+                  )}
+                </Button>
+              </FormControl>
+              <Calendar
+                mode="single"
+                selected={field.value}
+                onSelect={field.onChange}
+                disabled={(date) =>
+                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                }
+                captionLayout="dropdown"
+                className="w-full mb-5"
+              />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <RHFInput
+          name="time"
+          label="Явах цаг"
+          type="time"
+          step="60"
+          lang="en-GB"
+          className="text-center h-12"
+        />
+      </ScrollArea>
+      <PrevNextBtn step={3} setStep={setStep} />
     </div>
   );
 }

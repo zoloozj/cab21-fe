@@ -2,15 +2,13 @@ import { Button } from "@/components/ui/button";
 import RHFCombo from "@/components/hook-form/rhf-combo";
 import RHFRadio from "@/components/hook-form/rhf-radio";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import PrevNextBtn from "./prev-next-btn";
 
 interface Props {
   setStep: (a: number) => void;
 }
 
 export default function DestinationSelect({ setStep }: Props) {
-  const nextPage = () => {
-    setStep(3);
-  };
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <p className="font-semibold my-4">Та хаашаа явах вэ?</p>
@@ -32,9 +30,7 @@ export default function DestinationSelect({ setStep }: Props) {
           parent="Төв аймаг"
         />
       </ScrollArea>
-      <Button className="h-12" onClick={nextPage}>
-        Дараах
-      </Button>
+      <PrevNextBtn step={2} setStep={setStep} />
     </div>
   );
 }
