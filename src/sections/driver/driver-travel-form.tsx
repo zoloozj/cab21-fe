@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
-import FromSelect from "./components/from-select";
-import DestinationSelect from "./components/destination-select";
-import TravelDateSelect from "./components/travel-date-select";
-import TravelTimePicker from "./components/travel-time-select";
 import PaymentInfo from "./components/payment";
+import FromSelect from "./components/from-select";
+import ReturnSelect from "./components/return-select";
 import PassengerNumber from "./components/passenger-number";
+import TravelDateSelect from "./components/travel-date-select";
+import DestinationSelect from "./components/destination-select";
 
 const FormSchema = z.object({
   phone: z.string().min(2, { message: "" }),
@@ -45,9 +45,9 @@ export default function DriverTravelForm() {
         {step === 1 && <FromSelect setStep={setStep} />}
         {step === 2 && <DestinationSelect setStep={setStep} />}
         {step === 3 && <TravelDateSelect setStep={setStep} />}
-        {/* {step === 4 && <TravelTimePicker setStep={setStep} />} */}
         {step === 4 && <PaymentInfo setStep={setStep} />}
         {step === 5 && <PassengerNumber setStep={setStep} />}
+        {step === 6 && <ReturnSelect setStep={setStep} />}
       </form>
     </Form>
   );

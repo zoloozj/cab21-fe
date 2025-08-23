@@ -14,7 +14,7 @@ export default function DestinationSelect({ setStep }: Props) {
       <p className="font-semibold my-4">Та хаашаа явах вэ?</p>
       <RHFCombo
         name="fromAimag"
-        placeholder="хаанаас..."
+        placeholder="хаашаа..."
         options={[
           { label: "Улаанбаатар", value: "ub" },
           { label: "Төв аймаг", value: "tuv" },

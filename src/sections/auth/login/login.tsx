@@ -3,15 +3,17 @@
 import { z } from "zod";
 import Link from "next/link";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
+import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import RHFInput from "@/components/hook-form/rhf-input";
-import Iconify from "@/components/ui/iconify";
 import PasswordInput from "@/app/auth/components/password-input";
 
 const FormSchema = z.object({
@@ -20,6 +22,9 @@ const FormSchema = z.object({
 });
 
 export default function Login() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,13 +36,9 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
-    toast("You submitted the following values", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    Cookies.set("token", "User Login", { expires: 7 });
+    const from = searchParams.get("from");
+    router.push(from || "/");
   }
 
   return (

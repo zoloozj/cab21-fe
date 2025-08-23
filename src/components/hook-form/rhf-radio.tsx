@@ -1,7 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -11,6 +10,7 @@ import {
 import Iconify from "@/components/ui/iconify";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
 
 interface Option {
   label: string;
@@ -22,6 +22,7 @@ type Props = {
   placeholder?: string;
   options: Option[];
   parent: string;
+  row?: boolean;
 };
 
 export default function RHFRadio({
@@ -29,6 +30,7 @@ export default function RHFRadio({
   placeholder = "",
   options,
   parent,
+  row = false,
 }: Props) {
   const { control } = useFormContext();
   return (
@@ -42,7 +44,7 @@ export default function RHFRadio({
             <RadioGroup
               onValueChange={field.onChange}
               defaultValue={field.value}
-              className="flex flex-col"
+              className={cn("flex flex-col", row && "flex-row justify-between")}
             >
               {options.map((option) => (
                 <div key={option.value}>

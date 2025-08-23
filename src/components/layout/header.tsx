@@ -3,6 +3,7 @@ import Image from "next/image";
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import IconButton from "@/components/ui/icon-button";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -19,7 +20,13 @@ export default function Header() {
         />
         <div className="flex gap-2">
           <IconButton icon="solar:magnifer-linear" title="Хайх" />
-          <IconButton icon="solar:add-circle-linear" title=" Зар оруулах" />
+          <Link href="driver-travel">
+            <IconButton
+              icon="solar:add-circle-linear"
+              title=" Зар оруулах"
+              className="cursor-pointer"
+            />
+          </Link>
           <Button variant="ghost" className="flex gap-2 items-center" size="lg">
             <Image
               className="dark:invert"
@@ -54,7 +61,9 @@ export default function Header() {
         />
         <div className="flex items-center">
           <IconButton icon="solar:magnifer-linear" title="Хайх" />
-          <IconButton icon="solar:add-circle-linear" title=" Зар оруулах" />
+          <Link href="driver-travel" className="cursor-pointer">
+            <IconButton icon="solar:add-circle-linear" title=" Зар оруулах" />
+          </Link>
         </div>
       </div>
     </div>

@@ -123,3 +123,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Edge & IE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Chrome/Safari/Opera autofill/clear buttons */
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-clear-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
