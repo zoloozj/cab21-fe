@@ -34,12 +34,7 @@ export default function PassengerMainInfo({ setStep }: Props) {
           </div>
         </div>
         <p className="text-xl font-bold">Ерөнхий мэдээлэл</p>
-        <IconInput
-          icon="solar:phone-linear"
-          name="phone"
-          placeholder="Утасны дугаар"
-          type="number"
-        />
+        <IconInput icon="mdi-light:email" name="email" placeholder="И-Мэйл" />
         <IconInput
           icon="solar:user-circle-linear"
           name="lastName"
@@ -52,10 +47,16 @@ export default function PassengerMainInfo({ setStep }: Props) {
         />
         <IconInput
           icon="ant-design:number-outlined"
-          name="age"
-          placeholder="Нас"
+          name="registryNumber"
+          placeholder="Регистрийн дугаар"
         />
-        <RHFSelect
+        <IconInput
+          icon="solar:calendar-date-linear"
+          name="birthday"
+          placeholder="Төрсөн огноо"
+          type="date"
+        />
+        {/* <RHFSelect
           icon="streamline-ultimate:gender-hetero"
           name="gender"
           placeholder="Хүйс"
@@ -63,7 +64,7 @@ export default function PassengerMainInfo({ setStep }: Props) {
             { label: "Эрэгтэй", value: "male" },
             { label: "Эмэгтэй", value: "female" },
           ]}
-        />
+        /> */}
       </div>{" "}
       <div className="text-center w-full">
         <Button

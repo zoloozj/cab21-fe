@@ -40,7 +40,7 @@ export default function PasswordForm({ setStep, isLoading }: Props) {
         <p className="text-xl font-bold">Нууц үг</p>
         <div className="flex flex-col gap-3">
           <PasswordInput name="password" />
-          <PasswordInput name="password2" placeholder="Нууц үг давтах" />
+          <PasswordInput name="confirmPassword" placeholder="Нууц үг давтах" />
         </div>
       </div>
       <div className="text-center w-full">
