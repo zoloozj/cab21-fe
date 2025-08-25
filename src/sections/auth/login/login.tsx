@@ -1,14 +1,15 @@
 "use client";
 
 import { z } from "zod";
+import axios from "axios";
 import Link from "next/link";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Form } from "@/components/ui/form";
 import Iconify from "@/components/ui/iconify";
@@ -33,12 +34,35 @@ export default function Login() {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const mutation = useMutation({
+    mutationFn: async (body: any) => {
+      const res = await axios.post("/api/auth", body, {
+        headers: { "Content-Type": "application/json" },
+      });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast("Тавтай морил!");
+      Cookies.set("token", data.token, {
+        expires: 7,
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+      });
+      const from = searchParams.get("from");
+      router.push(from || "/");
+    },
+    onError: (error) => {
+      toast(error.message);
+    },
+  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    setIsLoading(true);
-    Cookies.set("token", "User Login", { expires: 7 });
-    const from = searchParams.get("from");
-    router.push(from || "/");
+    const body = {
+      serviceUrl: "api/auth/login",
+      ...data,
+    };
+    mutation.mutate(body);
   }
 
   return (
@@ -69,10 +93,14 @@ export default function Login() {
           <div className="text-center w-full">
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={mutation.isPending}
               className="mt-10 h-12 px-16 text-white font-bold text-lg rounded-xl cursor-pointer"
             >
-              {isLoading ? <Loader2Icon className="animate-spin" /> : "Нэвтрэх"}
+              {mutation.isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                "Нэвтрэх"
+              )}
             </Button>
           </div>
         </form>

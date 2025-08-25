@@ -40,7 +40,7 @@ export default function DriverTravelForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full h-[90%] overflow-hidden p-4"
+        className="w-full h-[90%] overflow-hidden p-4 lg:max-w-2xl lg:mx-auto"
       >
         {step === 1 && <FromSelect setStep={setStep} />}
         {step === 2 && <DestinationSelect setStep={setStep} />}

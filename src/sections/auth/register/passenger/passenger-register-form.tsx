@@ -44,8 +44,10 @@ export default function PassengerRegisterForm() {
   });
 
   const mutation = useMutation({
-    mutationFn: async (body: z.infer<typeof FormSchema>) => {
-      const res = await axios.post("/api/req", body);
+    mutationFn: async (body: any) => {
+      const res = await axios.post("/api/auth", body, {
+        headers: { "Content-Type": "application/json" },
+      });
       return res.data;
     },
     onSuccess: (data) => {
@@ -58,14 +60,14 @@ export default function PassengerRegisterForm() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    const { confirmPassword, ...rest } = data;
     const body = {
-      ...data,
+      ...rest,
       serviceUrl: "api/user/create",
-      role: "passenger",
+      role: "user",
       username: data.email,
     };
     mutation.mutate(body);
-    console.log(data);
   }
 
   const [step, setStep] = useState(1);

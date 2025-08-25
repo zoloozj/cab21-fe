@@ -1,6 +1,6 @@
 import axios from "axios";
 import { MAIN_API } from "@/config-global";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
