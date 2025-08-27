@@ -2,9 +2,9 @@ import { useFormContext } from "react-hook-form";
 
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -12,10 +12,10 @@ import { ComponentProps } from "react";
 
 type Props = ComponentProps<"input"> & {
   name: string;
-  label?: string;
+  desc?: boolean;
 };
 
-export default function RHFInput({ name, label, ...other }: Props) {
+export default function RHFInput({ name, desc, ...other }: Props) {
   const { control } = useFormContext();
   return (
     <FormField
@@ -23,12 +23,14 @@ export default function RHFInput({ name, label, ...other }: Props) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          {/* <FormLabel className="text-gray-500">{label}</FormLabel> */}
           <FormControl>
             <Input {...field} {...other} />
           </FormControl>
-          {/* <FormDescription>This is your public display name.</FormDescription> */}
-          <FormMessage />
+          <FormDescription className="-mt-1 ml-2">
+            {desc ? `(${other.placeholder})` : null}
+          </FormDescription>
+          <FormMessage className="-mt-3" />
         </FormItem>
       )}
     />

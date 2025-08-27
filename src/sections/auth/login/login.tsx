@@ -16,15 +16,18 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import RHFInput from "@/components/hook-form/rhf-input";
 import PasswordInput from "@/app/auth/components/password-input";
+import { useUser } from "@/lib/user-provider";
+import { User } from "@/lib/auth";
 
 const FormSchema = z.object({
   username: z.string().min(2, { message: "" }),
-  password: z.string().min(6, { message: "" }),
+  password: z.string().min(4, { message: "" }),
 });
 
 export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setUser } = useUser();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,19 +39,14 @@ export default function Login() {
 
   const mutation = useMutation({
     mutationFn: async (body: any) => {
-      const res = await axios.post("/api/auth", body, {
+      const { data } = await axios.post("/api/login", body, {
         headers: { "Content-Type": "application/json" },
       });
-      return res.data;
+      return data;
     },
-    onSuccess: (data) => {
+    onSuccess: (user) => {
       toast("Тавтай морил!");
-      Cookies.set("token", data.token, {
-        expires: 7,
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-      });
+      setUser(user);
       const from = searchParams.get("from");
       router.push(from || "/");
     },
@@ -58,11 +56,7 @@ export default function Login() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const body = {
-      serviceUrl: "api/auth/login",
-      ...data,
-    };
-    mutation.mutate(body);
+    mutation.mutate(data);
   }
 
   return (
@@ -75,7 +69,7 @@ export default function Login() {
               width={20}
               color="#667085"
               icon="solar:user-circle-linear"
-              className="absolute left-3 top-1/2 mt-2 transform -translate-y-1/2 text-gray-500 z-10"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10"
             />
             <RHFInput
               name="username"

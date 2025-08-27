@@ -1,22 +1,51 @@
 import axios from "axios";
 import { MAIN_API } from "@/config-global";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
+  console.log("THIS WORKS");
   try {
     const body = await req.json();
     const { serviceUrl } = body;
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
 
+    console.log(url, "URL");
+
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
-    const response = await axios.post(url, body, { headers });
+    const token = (await cookies()).get("token")?.value;
+    const response = await axios.post(url, body, {
+      headers: { Authorization: `Bearer ${token}`, ...headers },
+    });
     return NextResponse.json(response.data);
-  } catch (e: any) {
+  } catch (error: any) {
+    const e = error.response.data;
     return NextResponse.json(
       { error: e || "Internal Server Error" },
-      { status: 500 }
+      { status: e.status || 500 }
+    );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    console.log("THIS WORKS!!!");
+    const url = req.nextUrl.searchParams.get("url");
+    const headers = Object.fromEntries(req.headers);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    console.log(`${MAIN_API}/${url}`, "URL");
+    const response = await axios.get(`${MAIN_API}/${url}`, {
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+    });
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    const e = error.response.data;
+    return NextResponse.json(
+      { error: e || "Internal Server Error" },
+      { status: e.status || 500 }
     );
   }
 }

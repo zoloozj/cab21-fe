@@ -16,11 +16,16 @@ export default function PrevNextBtn({ step, setStep, firstPage }: Props) {
   return (
     <div className="flex gap-2 w-full">
       {!firstPage && (
-        <Button className="h-12 flex-1" variant="outline" onClick={prevPage}>
+        <Button
+          type="button"
+          className="h-12 flex-1"
+          variant="outline"
+          onClick={prevPage}
+        >
           Буцах
         </Button>
       )}
-      <Button className="h-12 flex-1" onClick={nextPage}>
+      <Button type="button" className="h-12 flex-1" onClick={nextPage}>
         Дараах
       </Button>
     </div>

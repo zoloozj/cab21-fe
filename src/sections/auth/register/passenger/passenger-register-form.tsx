@@ -1,27 +1,29 @@
 "use client";
 
 import { z } from "zod";
+import axios from "axios";
+import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
-import PasswordForm from "@/sections/components/password-form";
-import PassengerMainInfo from "@/sections/auth/register/passenger/main-info";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import PasswordForm from "@/sections/auth/components/password-form";
+import PassengerMainInfo from "@/sections/auth/components/main-info";
 
 const FormSchema = z
   .object({
-    firstName: z.string().min(1, { message: "" }),
-    lastName: z.string().min(1, { message: "" }),
-    registryNumber: z.string().min(1, { message: "" }),
-    password: z.string().min(1, { message: "" }),
-    confirmPassword: z.string().min(1, { message: "" }),
-    email: z.email().min(1, { message: "" }),
-    birthday: z.string({ message: "" }),
+    firstName: z.string(),
+    lastName: z.string(),
+    registryNumber: z.string(),
+    password: z
+      .string()
+      .min(6, { message: "Нууц үг хамгийн багадаа 6 тэмдэгт байх ёстой." }),
+    confirmPassword: z.string(),
+    email: z.email({ message: "Мэйл хаяг оруулна уу!" }),
+    birthday: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Нууц үг тохирохгүй байна!",
@@ -54,8 +56,11 @@ export default function PassengerRegisterForm() {
       toast("Амжилттай бүртгүүллээ!");
       router.push("auth/login");
     },
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: any) => {
+      toast.error(
+        error.response.data.error || "Алдаа гарлаа, дахин оролдоно уу!",
+        { position: "top-center" }
+      );
     },
   });
 
@@ -65,7 +70,7 @@ export default function PassengerRegisterForm() {
       ...rest,
       serviceUrl: "api/user/create",
       role: "user",
-      username: data.email,
+      username: data.email.split("@")[0],
     };
     mutation.mutate(body);
   }
@@ -78,7 +83,11 @@ export default function PassengerRegisterForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full h-full">
           {step === 1 && <PassengerMainInfo setStep={setStep} />}
           {step === 2 && (
-            <PasswordForm setStep={setStep} isLoading={mutation.isPending} />
+            <PasswordForm
+              setStep={setStep}
+              isLoading={mutation.isPending}
+              prev={1}
+            />
           )}
         </form>
       </Form>

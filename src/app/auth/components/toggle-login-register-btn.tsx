@@ -11,7 +11,7 @@ export default function ToggleLoginRegisterBtn() {
       {path === "/auth/login" ? (
         <div>
           Гишүүн биш үү?
-          <Link href="register" className="font-bold text-[#FFB300]">
+          <Link href="/passenger" className="font-bold text-[#FFB300]">
             {" "}
             Бүртгүүлэх
           </Link>

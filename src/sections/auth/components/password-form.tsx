@@ -9,16 +9,17 @@ import { Loader2Icon } from "lucide-react";
 interface Props {
   setStep: (a: number) => void;
   isLoading: boolean;
+  prev: number;
 }
 
-export default function PasswordForm({ setStep, isLoading }: Props) {
+export default function PasswordForm({ setStep, isLoading, prev }: Props) {
   return (
     <div className="h-full flex flex-col">
       <div className="h-full">
         <div className="mb-5 relative w-full">
           <Link
             href=""
-            onClick={() => setStep(1)}
+            onClick={() => setStep(prev)}
             className="flex items-center gap-2"
           >
             <Iconify
@@ -38,7 +39,7 @@ export default function PasswordForm({ setStep, isLoading }: Props) {
           </div>
         </div>
         <p className="text-xl font-bold">Нууц үг</p>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-6 mt-3">
           <PasswordInput name="password" />
           <PasswordInput name="confirmPassword" placeholder="Нууц үг давтах" />
         </div>

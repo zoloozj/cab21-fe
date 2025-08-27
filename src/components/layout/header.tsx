@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { cookies } from "next/headers";
 
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
@@ -12,16 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Logout from "./logout";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function Header() {
+  const user = await getCurrentUser();
+
   const ActionButton = () => (
     <>
       <IconButton icon="solar:magnifer-linear" title="Хайх" />
-      <Link href="driver-travel">
+      <Link href="/driver-travel">
         <IconButton
           icon="solar:add-circle-linear"
           title=" Зар оруулах"
@@ -31,10 +32,8 @@ export default async function Header() {
     </>
   );
 
-  const token = (await cookies()).get("token")?.value;
-
   const UserButton = () => {
-    return token ? (
+    return user ? (
       <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -59,9 +58,8 @@ export default async function Header() {
           <DropdownMenuContent className="w-56" align="start">
             <DropdownMenuLabel>Миний бүртгэл</DropdownMenuLabel>
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Профайл
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              <DropdownMenuItem asChild>
+                <Link href="/profile">Профайл</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -83,14 +81,16 @@ export default async function Header() {
     <div className="py-3 md:py-6 px-4 xl:px-[300px] m-0 bg-white dark:bg-gray-800">
       {/* Web Header */}
       <div className="m-0 justify-between hidden md:flex">
-        <Image
-          className="dark:invert hidden md:block"
-          src="/assets/logo.svg"
-          alt="Cab21 logo"
-          width={180}
-          height={38}
-          priority
-        />
+        <Link href="/">
+          <Image
+            className="dark:invert hidden md:block"
+            src="/assets/logo.svg"
+            alt="Cab21 logo"
+            width={180}
+            height={38}
+            priority
+          />
+        </Link>
         <div className="flex gap-2">
           <ActionButton />
           <UserButton />
@@ -99,12 +99,14 @@ export default async function Header() {
       {/* Mobile Header */}
       <div className="flex md:hidden justify-between m-0 items-center">
         <UserButton />
-        <Image
-          src="/assets/logo2.svg"
-          width={100}
-          height={100}
-          alt="Аваад явий"
-        />
+        <Link href="/">
+          <Image
+            src="/assets/logo2.svg"
+            width={100}
+            height={100}
+            alt="Аваад явий"
+          />
+        </Link>
         <div className="flex items-center">
           <ActionButton />
         </div>

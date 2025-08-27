@@ -30,7 +30,6 @@ export default function PassengerNumber({ setStep }: Props) {
           {/* </Button> */}
           <RHFInput
             name="passengerNumber"
-            label=""
             className="h-12 text-center text-gray-800 font-bold text-2xl w-20"
             type="number"
             disabled

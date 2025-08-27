@@ -22,7 +22,7 @@ export default function PasswordInput({
         width={20}
         color="#667085"
         icon="solar:lock-keyhole-minimalistic-linear"
-        className="absolute left-3 top-1/2 mt-2 transform -translate-y-1/2 text-gray-500 z-10"
+        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10"
       />
       <RHFInput
         name={name}
@@ -34,7 +34,7 @@ export default function PasswordInput({
         width={20}
         color="#667085"
         icon={show ? "solar:eye-closed-linear" : "solar:eye-linear"}
-        className="absolute right-3 top-1/2 mt-2 transform -translate-y-1/2 text-gray-500 z-10 cursor-pointer"
+        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 cursor-pointer"
         onClick={toggle}
       />
     </div>
