@@ -15,7 +15,13 @@ export default function FromSelect({ setStep }: Props) {
   const { watch } = useFormContext();
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div
+      className="flex flex-col"
+      style={{
+        height: "calc(100vh - var(--header-height, 120px))",
+        overflow: "hidden",
+      }}
+    >
       <p className="font-semibold my-4">Та хаанаас хөдлөх вэ?</p>
       <RHFCombo name="fromAimag" placeholder="хаанаас..." options={aimags} />
       <ScrollArea className="flex-1 min-h-0 py-2">

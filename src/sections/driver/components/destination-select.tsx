@@ -10,7 +10,13 @@ interface Props {
 
 export default function DestinationSelect({ setStep }: Props) {
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div
+      className="flex flex-col"
+      style={{
+        height: "calc(100vh - var(--header-height, 120px))",
+        overflow: "hidden",
+      }}
+    >
       <p className="font-semibold my-4">Та хаашаа явах вэ?</p>
       <RHFCombo
         name="fromAimag"
