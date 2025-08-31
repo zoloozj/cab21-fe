@@ -28,7 +28,7 @@ export default function TravelDateSelect({ setStep }: Props) {
       <ScrollArea className="flex-1 min-h-0 py-2">
         <FormField
           control={control}
-          name="travelDate"
+          name="startDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormControl>
@@ -61,8 +61,8 @@ export default function TravelDateSelect({ setStep }: Props) {
           )}
         />
         <RHFInput
-          name="time"
-          label="Явах цаг"
+          name="startTime"
+          placeholder="Явах цаг"
           type="time"
           step="60"
           lang="en-GB"

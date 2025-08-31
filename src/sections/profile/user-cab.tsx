@@ -14,7 +14,7 @@ interface Props {
 }
 
 async function fetchCabInfo(userId: number) {
-  const response = await fetch(`api/req?url=api/cabs/user/${userId}`);
+  const response = await fetch(`/api/req?url=api/cabs/user/${userId}`);
   if (!response.ok) {
     await customError(response);
   }

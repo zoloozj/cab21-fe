@@ -23,13 +23,13 @@ export default function FromSelect({ setStep }: Props) {
       }}
     >
       <p className="font-semibold my-4">Та хаанаас хөдлөх вэ?</p>
-      <RHFCombo name="fromAimag" placeholder="хаанаас..." options={aimags} />
+      <RHFCombo name="startPlace" placeholder="хаанаас..." options={aimags} />
       <ScrollArea className="flex-1 min-h-0 py-2">
         <RHFRadio
-          name="fromSoum"
-          options={soums.filter((x) => x.parent === watch("fromAimag"))}
+          name="startPlaceSub"
+          options={soums.filter((x) => x.parent === watch("startPlace"))}
           parent={
-            aimags.find((x) => x.value === watch("fromAimag"))?.label || ""
+            aimags.find((x) => x.value === watch("startPlace"))?.label || ""
           }
         />
       </ScrollArea>
