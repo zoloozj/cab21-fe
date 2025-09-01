@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
-  console.log("THIS WORKS");
   try {
     const body = await req.json();
     const { serviceUrl } = body;
@@ -14,7 +13,6 @@ export async function POST(req: Request) {
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
-    console.log(body, "TOKEN");
     const response = await axios.post(url, body, {
       headers: { ...headers, Authorization: `Bearer ${token}` },
     });
@@ -30,12 +28,10 @@ export async function POST(req: Request) {
 
 export async function GET(req: NextRequest) {
   try {
-    console.log("THIS WORKS!!!");
     const url = req.nextUrl.searchParams.get("url");
     const headers = Object.fromEntries(req.headers);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    console.log(`${MAIN_API}/${url}`, "URL");
     const response = await axios.get(`${MAIN_API}/${url}`, {
       headers: { ...headers, Authorization: `Bearer ${token}` },
     });

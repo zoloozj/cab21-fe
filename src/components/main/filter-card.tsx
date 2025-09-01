@@ -20,12 +20,12 @@ import SelectDate from "@/components/main/components/select-time";
 import SelectFrom from "@/components/main/components/select-from";
 
 const FormSchema = z.object({
-  startPlace: z.string().nullable(),
-  startPlaceSub: z.string().nullable(),
-  endPlace: z.string().nullable(),
-  endPlaceSub: z.string().nullable(),
-  startTime: z.date().nullable(),
-  passengerSeats: z.number().nullable(),
+  startPlace: z.string().nullable().optional(),
+  startPlaceSub: z.string().nullable().optional(),
+  endPlace: z.string().nullable().optional(),
+  endPlaceSub: z.string().nullable().optional(),
+  startTime: z.date().nullable().optional(),
+  passengerSeats: z.number().nullable().optional(),
 });
 
 type SearchParamsLike = URLSearchParams | ReadonlyURLSearchParams;
@@ -41,7 +41,8 @@ function useCreateQueryString(searchParams: SearchParamsLike) {
           val === null ||
           val === undefined ||
           val === "" ||
-          val === "null - undefined"
+          val === "null - undefined" ||
+          val === "undefined - undefined"
         ) {
           params.delete(key);
         } else {
@@ -55,20 +56,19 @@ function useCreateQueryString(searchParams: SearchParamsLike) {
 }
 
 export default function FilterCard() {
-  const today = new Date();
   const router = useRouter();
   const searchParams = useSearchParams();
   const createQueryString = useCreateQueryString(searchParams);
-  const date = new Date(searchParams.get("startTime") || "");
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      startPlace: searchParams.get("startPlace") || null,
+      startPlace: null,
       startPlaceSub: null,
-      endPlace: searchParams.get("endPlace") || null,
+      endPlace: null,
       endPlaceSub: null,
-      startTime: searchParams.get("startTime") ? date : null,
-      passengerSeats: Number(searchParams.get("passengerSeats")) || null,
+      startTime: null,
+      passengerSeats: null,
     },
   });
 

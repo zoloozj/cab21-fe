@@ -71,7 +71,10 @@ export default function SelectFrom({
                 <CommandList>
                   <CommandEmpty>Хайлт олдсонгүй...</CommandEmpty>
                   <CommandGroup>
-                    {soums.map((language) => (
+                    {[
+                      { value: "", label: "Цэвэрлэх", parent: "" },
+                      ...soums,
+                    ].map((language) => (
                       <CommandItem
                         value={language.value}
                         key={language.value}

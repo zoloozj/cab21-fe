@@ -51,7 +51,7 @@ export function buildGridRequest(searchParam?: {
 
   return {
     startRow: 0,
-    endRow: 10,
+    endRow: 100,
     sortModel: [{ colId: "id", sort: "desc" }],
     filterModel,
   };

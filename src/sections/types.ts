@@ -12,14 +12,20 @@ export interface Ride {
   booking_status: string | null;
 }
 
-export type TextFilterOp = "contains" | "equals" | "startsWith" | "endsWith";
+export type TextFilterOp =
+  | "contains"
+  | "equals"
+  | "startsWith"
+  | "endsWith"
+  | "inRange";
 export type SortDir = "asc" | "desc";
 
 export type FilterModel = {
   [key: string]:
     | {
         filter: string;
-        filterType: "text";
+        filterType: "text" | "date";
+        filterTo?: string;
         type: TextFilterOp;
       }
     | undefined;
