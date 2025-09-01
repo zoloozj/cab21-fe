@@ -21,7 +21,9 @@ export default async function Header() {
 
   const ActionButton = () => (
     <>
-      <IconButton icon="solar:magnifer-linear" title="Хайх" />
+      <Link href="filter">
+        <IconButton icon="solar:magnifer-linear" title="Хайх" />
+      </Link>
       <Link href="/driver-travel">
         <IconButton
           icon="solar:add-circle-linear"

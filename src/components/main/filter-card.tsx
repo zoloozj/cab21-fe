@@ -1,36 +1,136 @@
+"use client";
+
+import { z } from "zod";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+
+import { Form } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
+import { soums } from "@/components/constant";
+import { Button } from "@/components/ui/button";
 import IconButton from "@/components/ui/icon-button";
 import { Separator } from "@/components/ui/separator";
+import SelectDate from "@/components/main/components/select-time";
+import SelectFrom from "@/components/main/components/select-from";
+
+const FormSchema = z.object({
+  startPlace: z.string().nullable(),
+  startPlaceSub: z.string().nullable(),
+  endPlace: z.string().nullable(),
+  endPlaceSub: z.string().nullable(),
+  startTime: z.date().nullable(),
+  passengerSeats: z.number().nullable(),
+});
+
+type SearchParamsLike = URLSearchParams | ReadonlyURLSearchParams;
+
+function useCreateQueryString(searchParams: SearchParamsLike) {
+  return useCallback(
+    (updates: Record<string, string | number | boolean | null | undefined>) => {
+      // clone current params (ReadonlyURLSearchParams is immutable)
+      const params = new URLSearchParams(Array.from(searchParams.entries()));
+
+      for (const [key, val] of Object.entries(updates)) {
+        if (
+          val === null ||
+          val === undefined ||
+          val === "" ||
+          val === "null - undefined"
+        ) {
+          params.delete(key);
+        } else {
+          params.set(key, String(val));
+        }
+      }
+      return params.toString();
+    },
+    [searchParams]
+  );
+}
 
 export default function FilterCard() {
+  const today = new Date();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const createQueryString = useCreateQueryString(searchParams);
+  const date = new Date(searchParams.get("startTime") || "");
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      startPlace: searchParams.get("startPlace") || null,
+      startPlaceSub: null,
+      endPlace: searchParams.get("endPlace") || null,
+      endPlaceSub: null,
+      startTime: searchParams.get("startTime") ? date : null,
+      passengerSeats: Number(searchParams.get("passengerSeats")) || null,
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    const startPlace = soums.find((x) => x.value === data.startPlace)?.label;
+    const endPlace = soums.find((x) => x.value === data.endPlace)?.label;
+    const finalValue = {
+      startPlace: `${data.startPlaceSub} - ${startPlace}`,
+      endPlace: `${data.endPlaceSub} - ${endPlace}`,
+      startTime: data.startTime?.toLocaleDateString("en-CA") || null,
+      passengerSeats: data.passengerSeats,
+    };
+    router.push(`/filter?${createQueryString(finalValue)}`);
+  }
+
   return (
-    <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 md:mx-2 w-full lg:max-w-7xl">
-      <Card className="mx-auto p-0 flex flex-row shadow-2xl w-full">
-        <div className="m-0 py-2 flex flex-row gap-3 justify-evenly w-full">
-          <IconButton title="Хаанаас" icon="lineicons:road-1" color="#98A2B3" />
-          <Separator orientation="vertical" />
-          <IconButton
-            title="Хаашаа"
-            icon="streamline-ultimate:trip-road"
-            color="#98A2B3"
-          />
-          <Separator orientation="vertical" />
-          <IconButton
-            title="Өнөөдөр"
-            icon="solar:calendar-outline"
-            color="#98A2B3"
-          />
-          <Separator orientation="vertical" />
-          <IconButton
-            title="1 зорчигч"
-            icon="solar:user-circle-outline"
-            color="#98A2B3"
-          />
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full overflow-hidden p-4 lg:max-w-2xl lg:mx-auto"
+      >
+        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 md:mx-2 w-full lg:max-w-7xl">
+          <Card className="mx-auto p-0 flex flex-row shadow-2xl w-full">
+            <div className="m-0 py-2 flex flex-row gap-3 justify-evenly w-full">
+              <SelectFrom
+                name="startPlace"
+                nameSub="startPlaceSub"
+                icon="lineicons:road-1"
+                placeholder="Хаанаас"
+              />
+              <Separator orientation="vertical" />
+              <SelectFrom
+                name="endPlace"
+                nameSub="endPlaceSub"
+                icon="streamline-ultimate:trip-road"
+                placeholder="Хаашаа"
+              />
+
+              <Separator orientation="vertical" />
+              <SelectDate
+                name="startTime"
+                placeholder="Өнөөдөр"
+                icon="solar:calendar-outline"
+              />
+              <Separator orientation="vertical" />
+              <IconButton
+                title="1 зорчигч"
+                icon="solar:user-circle-outline"
+                color="#98A2B3"
+              />
+            </div>
+            <Button
+              // asChild
+              type="submit"
+              className="flex h-15 justify-center items-center px-4 lg:px-10 -m-[1px] bg-[#FFB300] text-white font-bold rounded-r-lg cursor-pointer lg:w-md text-xs lg:text-lg"
+              // variant="ghost"
+            >
+              Хайх
+            </Button>
+          </Card>
         </div>
-        <div className="flex justify-center items-center px-4 lg:px-10 -m-[1px] bg-[#FFB300] text-white font-bold rounded-r-lg cursor-pointer lg:w-md text-xs lg:text-lg">
-          Хайх
-        </div>
-      </Card>
-    </div>
+      </form>
+    </Form>
   );
 }

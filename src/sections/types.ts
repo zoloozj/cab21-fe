@@ -1,0 +1,36 @@
+export interface Ride {
+  id: number;
+  ride_id: number;
+  driver_user_id: number | null;
+  start_time: string; // e.g. "2025-09-02 01:00:00"
+  start_place: string;
+  end_place: string;
+  ticket_price: number;
+  ride_status: "OPEN" | "CLOSED" | string;
+  booking_id: number | null;
+  booking_user_id: number | null;
+  booking_status: string | null;
+}
+
+export type TextFilterOp = "contains" | "equals" | "startsWith" | "endsWith";
+export type SortDir = "asc" | "desc";
+
+export type FilterModel = {
+  [key: string]:
+    | {
+        filter: string;
+        filterType: "text";
+        type: TextFilterOp;
+      }
+    | undefined;
+};
+export interface SortModelItem {
+  colId: keyof Ride | string;
+  sort: SortDir;
+}
+export interface GridRequest {
+  endRow: number;
+  startRow: number;
+  sortModel: SortModelItem[];
+  filterModel: FilterModel;
+}

@@ -26,6 +26,11 @@ export async function middleware(request: NextRequest) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("from", pathname); // redirect back after login
     return NextResponse.redirect(loginUrl);
+  } else {
+    if (pathname === "/auth/login" && valid) {
+      const homeUrl = new URL("/", request.url);
+      return NextResponse.redirect(homeUrl);
+    }
   }
 
   return NextResponse.next();

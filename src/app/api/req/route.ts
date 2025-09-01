@@ -11,12 +11,10 @@ export async function POST(req: Request) {
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
 
-    console.log(url, "URL");
-
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
-    console.log(token, "TOKEN");
+    console.log(body, "TOKEN");
     const response = await axios.post(url, body, {
       headers: { ...headers, Authorization: `Bearer ${token}` },
     });
