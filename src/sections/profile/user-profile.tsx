@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import UserCab from "@/sections/profile/user-cab";
 import { Separator } from "@/components/ui/separator";
 import { UserInfo } from "@/sections/profile/user-info";
+import EditUserModal from "./edit-user-modal";
 
 export default async function UserProfile() {
   const user = await getCurrentUser();
@@ -21,9 +22,12 @@ export default async function UserProfile() {
       {user ? (
         <>
           <Card className="p-4">
-            <h2 className="text-lg font-semibold text-primary">
-              {user.lastName?.charAt(0)}. {user.firstName}
-            </h2>
+            <div className="w-full flex gap-2 justify-between">
+              <h2 className="text-lg font-semibold text-primary">
+                {user.lastName?.charAt(0)}. {user.firstName}
+              </h2>
+              <EditUserModal userId={user.id} />
+            </div>
             <Separator />
             <UserInfo label="Хэрэглэгчийн нэр" value={user.username} />
             <UserInfo label="И-Мэйл" value={user.email} />

@@ -16,8 +16,9 @@ export async function POST(req: Request) {
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
+    console.log(token, "TOKEN");
     const response = await axios.post(url, body, {
-      headers: { Authorization: `Bearer ${token}`, ...headers },
+      headers: { ...headers, Authorization: `Bearer ${token}` },
     });
     return NextResponse.json(response.data);
   } catch (error: any) {

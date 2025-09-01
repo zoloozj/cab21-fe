@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   const c = await cookies();
   c.set("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 120, // 120 минут

@@ -15,11 +15,18 @@ import CabInfo from "@/sections/auth/register/cab/cab-info";
 
 const FormSchema = z.object({
   plate: z.string(),
-  model: z.string(),
-  passengerSeats: z.string(),
+  // .regex(/^\d{4}[А-ЯЁҮӨҺ]{3}$/i, {
+  //   message: "Улсын дугаарын формат буруу байна!",
+  // }),
+  model: z.string().min(2, { message: "Заавал бөглөх талбар" }).max(100),
+  passengerSeats: z.string().min(1, { message: "Заавал бөглөх талбар" }).max(2),
 });
 
-export default function CabRegisterForm() {
+interface Props {
+  id: string;
+}
+
+export default function CabRegisterForm({ id }: Props) {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -50,19 +57,18 @@ export default function CabRegisterForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const body = {
       ...data,
-      serviceUrl: "api/cab/create",
+      serviceUrl: "api/cabs/create",
+      driverName: user?.firstName,
       driverId: user?.id,
     };
     mutation.mutate(body);
   }
 
-  const [step, setStep] = useState(1);
-
   return (
     <div className="flex flex-col px-12 justify-start mx-auto items-center w-full sm:max-w-xl py-10 h-screen">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full h-full">
-          {step === 1 && <CabInfo />}
+          <CabInfo />
         </form>
       </Form>
     </div>

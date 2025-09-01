@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import PasswordForm from "@/sections/auth/components/password-form";
 import PassengerMainInfo from "@/sections/auth/components/main-info";
+import { User } from "@/lib/auth";
 
 const FormSchema = z
   .object({

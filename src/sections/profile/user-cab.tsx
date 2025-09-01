@@ -26,7 +26,6 @@ export default function UserCab({ userId }: Props) {
     queryKey: ["cabInfo", userId],
     queryFn: () => fetchCabInfo(userId),
   });
-  console.log(data, "DATA");
   if (isLoading)
     return (
       <div className="flex flex-col space-y-3 mt-3">
@@ -40,7 +39,6 @@ export default function UserCab({ userId }: Props) {
 
   if (error) {
     const { error: e } = JSON.parse(error.message);
-    console.log(e, "ERROR");
     if (e.status === 404)
       return (
         <div className="mt-3">
@@ -49,7 +47,7 @@ export default function UserCab({ userId }: Props) {
           </p>
           <div className="flex gap-3 text-muted-foreground justify-center">
             <Link
-              href="cab"
+              href={`${userId}/cab`}
               className="text-primary underline block text-center font-semibold"
             >
               Энд{" "}

@@ -57,19 +57,9 @@ export default function CabInfo() {
           />
         </div>
       </div>
-      <div className="flex gap-2 w-full">
-        <Button
-          type="button"
-          className="h-12 flex-1"
-          variant="outline"
-          onClick={prevPage}
-        >
-          Буцах
-        </Button>
-        <Button type="submit" className="h-12 flex-1">
-          Дараах
-        </Button>
-      </div>
+      <Button type="submit" className="h-12">
+        Бүртгэх
+      </Button>
     </div>
   );
 }
