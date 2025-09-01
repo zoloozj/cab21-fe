@@ -66,27 +66,30 @@ export async function getCurrentUser(): Promise<User | null> {
     return response.data;
   } catch {
     // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
-    try {
-      const user: NonNullable<User> = {
-        id: Number((payload as any).uid),
-        username: String(payload?.sub), // хүсвэл payload.username ашиглаж болно
-        email: String(payload?.sub),
-        role: String((payload as any).role ?? "user"),
-      };
+   cookieStore.delete("token"); // хүчингүй бол устгана
+    return null;
+  }
+}
 
-      // Хэрэв эдгээр claim-уудыг токенд оруулсан бол нэмэлтээр бөглөнө
-      if ((payload as any).firstName)
-        user.firstName = String((payload as any).firstName);
-      if ((payload as any).lastName)
-        user.lastName = String((payload as any).lastName);
-      if ((payload as any).birthday)
-        user.birthday = Number((payload as any).birthday);
-      if ((payload as any).registryNumber)
-        user.registryNumber = String((payload as any).registryNumber);
+export async function getUserCab() {
+    const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return null;
+  const payload = await verifyJwtHS512(token);
 
-      return user;
-    } catch {
-      return null;
-    }
+  // 1) Эхлээд /api/me-ээс (cookie дамжуулж) авахыг оролдоно
+
+  try {
+    const id = Number((payload as any).uid);
+    const response = await axios.get(`${MAIN_API}/api/cabs/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch {
+    // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
+    return null;
   }
 }
