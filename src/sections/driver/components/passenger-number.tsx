@@ -7,16 +7,11 @@ import RHFInput from "@/components/hook-form/rhf-input";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  setStep?: (a: number) => void;
+  setStep: (a: number) => void;
   isLoading: boolean;
-  notPrev?: boolean;
 }
 
-export default function PassengerNumber({
-  setStep,
-  isLoading,
-  notPrev,
-}: Props) {
+export default function PassengerNumber({ setStep, isLoading }: Props) {
   const { setValue, watch } = useFormContext();
   const passengerN = watch("passengerSeat");
   return (
@@ -28,7 +23,7 @@ export default function PassengerNumber({
       }}
     >
       <p className="font-semibold my-4">Зорчигчийн тоо.</p>
-      <div className={cn("flex-1 h-0 py-2", notPrev && "h-min")}>
+      <div className={cn("flex-1 h-0 py-2")}>
         <div className="flex justify-evenly items-center ">
           <Iconify
             icon="solar:minus-circle-linear"
@@ -52,24 +47,21 @@ export default function PassengerNumber({
             className="cursor-pointer"
             onClick={() => setValue("passengerSeat", passengerN + 1)}
           />
-          {/* </Button> */}
         </div>
       </div>
-      {notPrev && (
-        <div className="flex gap-2 w-full">
-          <Button
-            className="h-12 flex-1"
-            type="button"
-            variant="outline"
-            onClick={() => setStep && setStep(4)}
-          >
-            Буцах
-          </Button>
-          <Button type="submit" className="h-12 flex-1" disabled={isLoading}>
-            {isLoading ? <Loader2Icon className="animate-spin" /> : "Хадгалах"}
-          </Button>
-        </div>
-      )}
+      <div className="flex gap-2 w-full">
+        <Button
+          className="h-12 flex-1"
+          type="button"
+          variant="outline"
+          onClick={() => setStep && setStep(4)}
+        >
+          Буцах
+        </Button>
+        <Button type="submit" className="h-12 flex-1" disabled={isLoading}>
+          {isLoading ? <Loader2Icon className="animate-spin" /> : "Хадгалах"}
+        </Button>
+      </div>
     </div>
   );
 }

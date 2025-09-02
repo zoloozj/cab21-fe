@@ -14,19 +14,14 @@ import { useUser } from "@/lib/user-provider";
 import CabInfo from "@/sections/auth/register/cab/cab-info";
 
 const FormSchema = z.object({
-  plate: z.string(),
-  // .regex(/^\d{4}[А-ЯЁҮӨҺ]{3}$/i, {
-  //   message: "Улсын дугаарын формат буруу байна!",
-  // }),
+  plate: z.string().regex(/^\d{4}[А-ЯЁҮӨҺ]{3}$/i, {
+    message: "Улсын дугаарын формат буруу байна!",
+  }),
   model: z.string().min(2, { message: "Заавал бөглөх талбар" }).max(100),
   passengerSeats: z.string().min(1, { message: "Заавал бөглөх талбар" }).max(2),
 });
 
-interface Props {
-  id: string;
-}
-
-export default function CabRegisterForm({ id }: Props) {
+export default function CabRegisterForm() {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

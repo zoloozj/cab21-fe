@@ -38,25 +38,22 @@ export default function UserCab({ userId }: Props) {
     );
 
   if (error) {
-    const { error: e } = JSON.parse(error.message);
-    if (e.status === 404)
-      return (
-        <div className="mt-3">
-          <p className="text-center text-muted-foreground">
-            Та тээврийн хэрэгслийн мэдээлэл оруулаагүй байна!
-          </p>
-          <div className="flex gap-3 text-muted-foreground justify-center">
-            <Link
-              href={`${userId}/cab`}
-              className="text-primary underline block text-center font-semibold"
-            >
-              Энд{" "}
-            </Link>
-            дарж мэдээллээ оруулна уу!
-          </div>
+    return (
+      <div className="mt-3">
+        <p className="text-center text-muted-foreground">
+          Та тээврийн хэрэгслийн мэдээлэл оруулаагүй байна!
+        </p>
+        <div className="flex gap-3 text-muted-foreground justify-center">
+          <Link
+            href="/cab"
+            className="text-primary underline block text-center font-semibold"
+          >
+            Энд{" "}
+          </Link>
+          дарж мэдээллээ оруулна уу!
         </div>
-      );
-    return <Card className="mt-3 text-center">{e.message}</Card>;
+      </div>
+    );
   }
   return (
     <Card className="p-4 mt-3">

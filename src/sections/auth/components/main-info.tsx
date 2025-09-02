@@ -55,10 +55,9 @@ export default function PassengerMainInfo({ setStep }: Props) {
     }
 
     if (registryNumber) {
-      // first 2 Unicode letters, last 6 digits
-      const regRe = /^\p{L}{2}\d{8}$/u;
+      const regRe = /^[А-ЯЁҮӨҺa-яёүөһ]{2}\d{8}$/u;
       if (!regRe.test(registryNumber)) {
-        markError("registryNumber", "Регистрийн дугаар оруулна уу!");
+        markError("registryNumber", "Регистрийн буруу байна!");
       } else {
         clearErrors("registryNumber");
       }

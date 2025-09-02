@@ -3,6 +3,7 @@ import Iconify from "@/components/ui/iconify";
 import { Ride } from "@/sections/types";
 import Link from "next/link";
 import OrderRide from "./order-ride";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   ride: Ride;
@@ -26,7 +27,11 @@ export default function RideCard({ ride }: Props) {
       />
       <div className="flex gap-4 justify-between">
         <Link
-          href={`tel:${ride.driver_user_id}`}
+          href={
+            ride.capacity !== ride.passenger_count
+              ? `tel:${ride.driver_user_id}`
+              : "#"
+          }
           aria-label={`Call ${ride.driver_user_id}`}
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
