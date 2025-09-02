@@ -4,9 +4,10 @@ import { z } from "zod";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "sonner";
-import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
+import { useMemo } from "react";
+import { useUser } from "@/lib/user-provider";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,12 +17,12 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import RHFInput from "@/components/hook-form/rhf-input";
 import PasswordInput from "@/app/auth/components/password-input";
-import { useUser } from "@/lib/user-provider";
-import { User } from "@/lib/auth";
+import RFHCheckbox from "@/components/hook-form/rhf-checkbox";
 
 const FormSchema = z.object({
   username: z.string().min(2, { message: "" }),
   password: z.string().min(4, { message: "" }),
+  remember: z.boolean().optional(),
 });
 
 export default function Login() {
@@ -29,12 +30,20 @@ export default function Login() {
   const searchParams = useSearchParams();
   const { setUser } = useUser();
 
+  const username = localStorage.getItem("rememberedEmail") || "";
+
+  const defaultValues = useMemo(
+    () => ({
+      username,
+      password: "",
+      remember: !!username,
+    }),
+    [username]
+  );
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
+    defaultValues,
   });
 
   const mutation = useMutation({
@@ -56,7 +65,13 @@ export default function Login() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    mutation.mutate(data);
+    const { remember, ...rest } = data;
+    if (remember) {
+      localStorage.setItem("rememberedEmail", data.username);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+    }
+    mutation.mutate(rest);
   }
 
   return (
@@ -79,7 +94,16 @@ export default function Login() {
           </div>
           <PasswordInput name="password" />
           <div className="w-full flex justify-between items-center mt-6 text-xs">
-            <span className="text-gray-500">Нэвтрэх нэр сануулах</span>
+            <span className="text-gray-500 flex gap-2">
+              <RFHCheckbox
+                name="remember"
+                placeholder=""
+                item={{
+                  label: "Нэвтрэх нэр сануулах",
+                  value: true,
+                }}
+              />
+            </span>
             <Link href="" className="text-[#FFB300]">
               Нууц үг мартсан?
             </Link>
