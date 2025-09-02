@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,13 +10,32 @@ import {
 } from "@/components/ui/dialog";
 import { Ride } from "@/sections/types";
 import Iconify from "@/components/ui/iconify";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
+import PassengerNumber from "@/sections/driver/components/passenger-number";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   ride: Ride;
 }
 
+const FormSchema = z.object({
+  passengerSeat: z.number().min(1, { message: "" }).max(10, { message: "" }),
+});
+
 export default function OrderRide({ ride }: Props) {
   const [open, setOpen] = useState<boolean>(false);
+  const mutation = useMutation({});
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      passengerSeat: 1,
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {}
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
@@ -32,16 +52,24 @@ export default function OrderRide({ ride }: Props) {
             {ride.start_time} цагт хөдлөх {ride.plate} улсын дугаартай авто
             машинд бүртгүүлэх гэж байна!
           </p>
-          <div className="flex gap-2 justify-around">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full overflow-hidden p-4 lg:max-w-2xl lg:mx-auto"
             >
-              Буцах
-            </Button>
-            <Button type="button">Зөвшөөрөх</Button>
-          </div>
+              <PassengerNumber notPrev isLoading={mutation.isPending} />
+              <div className="flex gap-2 justify-around">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
+                  Буцах
+                </Button>
+                <Button type="submit">Зөвшөөрөх</Button>
+              </div>
+            </form>
+          </Form>
         </DialogDescription>
       </DialogContent>
     </Dialog>
