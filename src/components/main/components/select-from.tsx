@@ -28,18 +28,12 @@ import { aimags, soums } from "@/components/constant";
 
 interface Props {
   name: string;
-  nameSub: string;
   icon: string;
   placeholder: string;
 }
 
-export default function SelectFrom({
-  name,
-  nameSub,
-  icon,
-  placeholder,
-}: Props) {
-  const { control, setValue } = useFormContext();
+export default function SelectFrom({ name, icon, placeholder }: Props) {
+  const { control, setValue, watch } = useFormContext();
   const [open, setOpen] = useState(false);
   return (
     <FormField
@@ -50,19 +44,32 @@ export default function SelectFrom({
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
-                <Button
-                  variant="ghost"
-                  className={cn("flex gap-1 items-top")}
-                  size="lg"
-                >
-                  <Iconify icon={icon} color="#98A2B3" />
-                  <span className="hidden md:block">
-                    {field.value
-                      ? soums.find((language) => language.value === field.value)
-                          ?.label
-                      : placeholder}
-                  </span>
-                </Button>
+                <div className="relative">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className={cn("flex gap-1 items-top")}
+                    size="lg"
+                  >
+                    <Iconify icon={icon} color="#98A2B3" />
+                    <span className="hidden md:block">
+                      {field.value
+                        ? soums.find(
+                            (language) => language.value === field.value
+                          )?.label
+                        : placeholder}
+                    </span>
+                  </Button>
+                  {watch(name) && (
+                    <Iconify
+                      icon="solar:close-circle-broken"
+                      color="#dc2626"
+                      className="cursor-pointer absolute -right-5 top-0"
+                      width={20}
+                      onClick={() => setValue(name, null)}
+                    />
+                  )}
+                </div>
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
@@ -71,19 +78,12 @@ export default function SelectFrom({
                 <CommandList>
                   <CommandEmpty>Хайлт олдсонгүй...</CommandEmpty>
                   <CommandGroup>
-                    {[
-                      { value: "", label: "Цэвэрлэх", parent: "" },
-                      ...soums,
-                    ].map((language) => (
+                    {soums.map((language) => (
                       <CommandItem
-                        value={language.value}
+                        value={language.label}
                         key={language.value}
                         onSelect={() => {
                           setValue(name, language.value);
-                          const group = aimags.find(
-                            (a) => a.value === language.parent
-                          )?.label;
-                          setValue(nameSub, group);
                           setOpen(false);
                         }}
                       >

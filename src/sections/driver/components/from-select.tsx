@@ -14,6 +14,10 @@ interface Props {
 export default function FromSelect({ setStep }: Props) {
   const { watch } = useFormContext();
 
+  const { startPlace, startPlaceSub } = watch();
+
+  const disabled = !startPlace || !startPlaceSub;
+
   return (
     <div
       className="flex flex-col"
@@ -33,7 +37,7 @@ export default function FromSelect({ setStep }: Props) {
           }
         />
       </ScrollArea>
-      <PrevNextBtn step={1} setStep={setStep} firstPage />
+      <PrevNextBtn step={1} setStep={setStep} firstPage disabled={disabled} />
     </div>
   );
 }

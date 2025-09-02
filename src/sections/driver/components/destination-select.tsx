@@ -12,6 +12,11 @@ interface Props {
 
 export default function DestinationSelect({ setStep }: Props) {
   const { watch } = useFormContext();
+
+  const { endPlace, endPlaceSub } = watch();
+
+  const disabled = !endPlace || !endPlaceSub;
+
   return (
     <div
       className="flex flex-col"
@@ -20,7 +25,7 @@ export default function DestinationSelect({ setStep }: Props) {
         overflow: "hidden",
       }}
     >
-      <p className="font-semibold my-4">Та хаанаас хөдлөх вэ?</p>
+      <p className="font-semibold my-4">Та хаашаа явах вэ?</p>
       <RHFCombo name="endPlace" placeholder="хаанаас..." options={aimags} />
       <ScrollArea className="flex-1 min-h-0 py-2">
         <RHFRadio
@@ -31,7 +36,7 @@ export default function DestinationSelect({ setStep }: Props) {
           }
         />
       </ScrollArea>
-      <PrevNextBtn step={2} setStep={setStep} />
+      <PrevNextBtn step={2} setStep={setStep} disabled={disabled} />
     </div>
   );
 }

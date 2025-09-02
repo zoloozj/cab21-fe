@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import RHFCurrencyInput from "@/components/hook-form/rhf-currency-input";
 import PrevNextBtn from "@/sections/driver/components/prev-next-btn";
+import { useFormContext } from "react-hook-form";
 
 interface Props {
   setStep: (a: number) => void;
 }
 
 export default function PaymentInfo({ setStep }: Props) {
+  const { watch } = useFormContext();
+  const { ticketPrice } = watch();
   return (
     <div
       className="flex flex-col overflow-hidden text-center"
@@ -23,7 +26,7 @@ export default function PaymentInfo({ setStep }: Props) {
           className="h-12 text-center text-primary font-bold text-xl bg-white"
         />
       </div>
-      <PrevNextBtn step={4} setStep={setStep} />
+      <PrevNextBtn step={4} setStep={setStep} disabled={!ticketPrice} />
     </div>
   );
 }

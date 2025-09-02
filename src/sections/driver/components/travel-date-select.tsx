@@ -20,7 +20,9 @@ interface Props {
 }
 
 export default function TravelDateSelect({ setStep }: Props) {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
+  const { startDate, startTime } = watch();
+  const disabled = !startDate || !startTime;
 
   return (
     <div className="flex flex-col h-full overflow-hidden text-center">
@@ -69,7 +71,7 @@ export default function TravelDateSelect({ setStep }: Props) {
           className="text-center h-12"
         />
       </ScrollArea>
-      <PrevNextBtn step={3} setStep={setStep} />
+      <PrevNextBtn step={3} setStep={setStep} disabled={disabled} />
     </div>
   );
 }

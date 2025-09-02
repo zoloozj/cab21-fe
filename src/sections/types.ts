@@ -8,6 +8,10 @@ export interface Ride {
   ticket_price: number;
   ride_status: "OPEN" | "CLOSED" | string;
   booking_id: number | null;
+  plate: string;
+  model: string;
+  capacity: number;
+  passenger_count: number;
   booking_user_id: number | null;
   booking_status: string | null;
 }

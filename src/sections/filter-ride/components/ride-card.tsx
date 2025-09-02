@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Iconify from "@/components/ui/iconify";
 import { Ride } from "@/sections/types";
 import Link from "next/link";
+import OrderRide from "./order-ride";
 
 interface Props {
   ride: Ride;
@@ -14,8 +14,12 @@ export default function RideCard({ ride }: Props) {
       <RideInfo label="Хөдлөх газар" value={ride.start_place} />
       <RideInfo label="Очих газар" value={ride.end_place} />
       <RideInfo label="Хөдлөх цаг" value={ride.start_time} />
-      <RideInfo label="Автомашины дугаар" value={ride.ride_id} />
-      <RideInfo label="Автомашины марк" value={ride.ride_id} />
+      <RideInfo label="Автомашины дугаар" value={ride.plate} />
+      <RideInfo label="Автомашины марк" value={ride.model} />
+      <RideInfo
+        label="Суудал дүүргэлт"
+        value={`${ride.passenger_count}/${ride.capacity}`}
+      />
       <RideInfo
         label="Зардал"
         value={`${Number(ride.ticket_price).toLocaleString()}₮`}
@@ -29,10 +33,7 @@ export default function RideCard({ ride }: Props) {
           Жолоочтой холбогдох{" "}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
-        <div className="bg-[#6853BD]  flex text-white gap-2 justify-center items-center text-sm rounded-lg font-semibold py-2 px-6">
-          Сонгох{" "}
-          <Iconify icon="solar:arrow-right-linear" color="white" width={20} />
-        </div>
+        <OrderRide ride={ride} />
       </div>
     </Card>
   );

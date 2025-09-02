@@ -1,12 +1,23 @@
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   step: number;
   setStep: (a: number) => void;
   firstPage?: boolean;
+  disabled?: boolean;
 }
 
-export default function PrevNextBtn({ step, setStep, firstPage }: Props) {
+export default function PrevNextBtn({
+  step,
+  setStep,
+  firstPage,
+  disabled = false,
+}: Props) {
   const prevPage = () => {
     setStep(step - 1);
   };
@@ -25,9 +36,25 @@ export default function PrevNextBtn({ step, setStep, firstPage }: Props) {
           Буцах
         </Button>
       )}
-      <Button type="button" className="h-12 flex-1" onClick={nextPage}>
-        Дараах
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="flex-1">
+            <Button
+              type="button"
+              className="h-12 w-full"
+              onClick={nextPage}
+              disabled={disabled}
+            >
+              Дараах
+            </Button>
+          </span>
+        </TooltipTrigger>
+        {disabled && (
+          <TooltipContent>
+            <p className="text-white">Та сонголт хийнэ үү!</p>
+          </TooltipContent>
+        )}
+      </Tooltip>
     </div>
   );
 }

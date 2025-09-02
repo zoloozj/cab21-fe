@@ -38,7 +38,10 @@ export default function DriverTravelForm({ cabId }: Props) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       startPlace: "",
+      startPlaceSub: "",
       endPlace: "",
+      endPlaceSub: "",
+      startDate: undefined,
       startTime: undefined,
       passengerSeat: 1,
     },

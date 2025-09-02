@@ -33,7 +33,7 @@ interface Props {
 }
 
 export default function SelectDate({ name, icon, placeholder }: Props) {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, watch } = useFormContext();
   const [open, setOpen] = useState(false);
   return (
     <FormField
@@ -44,18 +44,30 @@ export default function SelectDate({ name, icon, placeholder }: Props) {
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>
-                <Button
-                  variant="ghost"
-                  className={cn("flex gap-1 items-top")}
-                  size="lg"
-                >
-                  <Iconify icon={icon} color="#98A2B3" />
-                  <span className="hidden md:block">
-                    {field.value
-                      ? field.value.toLocaleDateString("en-CA")
-                      : placeholder}
-                  </span>
-                </Button>
+                <div className="relative">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className={cn("flex gap-1 items-top")}
+                    size="lg"
+                  >
+                    <Iconify icon={icon} color="#98A2B3" />
+                    <span className="hidden md:block">
+                      {field.value
+                        ? field.value.toLocaleDateString("en-CA")
+                        : placeholder}
+                    </span>
+                  </Button>
+                  {watch("startTime") && (
+                    <Iconify
+                      icon="solar:close-circle-broken"
+                      color="#dc2626"
+                      className="cursor-pointer absolute -right-2 top-0"
+                      width={20}
+                      onClick={() => setValue("startTime", null)}
+                    />
+                  )}
+                </div>
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-min p-0">

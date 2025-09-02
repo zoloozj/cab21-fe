@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,7 +12,7 @@ import {
 
 import { Form } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
-import { soums } from "@/components/constant";
+import { aimags, soums } from "@/components/constant";
 import { Button } from "@/components/ui/button";
 import IconButton from "@/components/ui/icon-button";
 import { Separator } from "@/components/ui/separator";
@@ -21,11 +21,9 @@ import SelectFrom from "@/components/main/components/select-from";
 
 const FormSchema = z.object({
   startPlace: z.string().nullable().optional(),
-  startPlaceSub: z.string().nullable().optional(),
   endPlace: z.string().nullable().optional(),
-  endPlaceSub: z.string().nullable().optional(),
   startTime: z.date().nullable().optional(),
-  passengerSeats: z.number().nullable().optional(),
+  // passengerSeats: z.number().nullable().optional(),
 });
 
 type SearchParamsLike = URLSearchParams | ReadonlyURLSearchParams;
@@ -60,26 +58,31 @@ export default function FilterCard() {
   const searchParams = useSearchParams();
   const createQueryString = useCreateQueryString(searchParams);
 
+  const startTimeString = searchParams.get("startTime");
+  const startPlace = searchParams.get("startPlace");
+  const endPlace = searchParams.get("endPlace");
+  const startTime = startTimeString ? new Date(startTimeString) : null;
+
+  const defaultValues = useMemo(
+    () => ({
+      startPlace,
+      endPlace,
+      startTime: startTime,
+      // passengerSeats: null,
+    }),
+    [startTime, startPlace, endPlace]
+  );
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      startPlace: null,
-      startPlaceSub: null,
-      endPlace: null,
-      endPlaceSub: null,
-      startTime: null,
-      passengerSeats: null,
-    },
+    defaultValues,
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const startPlace = soums.find((x) => x.value === data.startPlace)?.label;
-    const endPlace = soums.find((x) => x.value === data.endPlace)?.label;
     const finalValue = {
-      startPlace: `${data.startPlaceSub} - ${startPlace}`,
-      endPlace: `${data.endPlaceSub} - ${endPlace}`,
+      startPlace: data.startPlace,
+      endPlace: data.endPlace,
       startTime: data.startTime?.toLocaleDateString("en-CA") || null,
-      passengerSeats: data.passengerSeats,
     };
     router.push(`/filter?${createQueryString(finalValue)}`);
   }
@@ -95,14 +98,12 @@ export default function FilterCard() {
             <div className="m-0 py-2 flex flex-row gap-3 justify-evenly w-full">
               <SelectFrom
                 name="startPlace"
-                nameSub="startPlaceSub"
                 icon="lineicons:road-1"
                 placeholder="Хаанаас"
               />
               <Separator orientation="vertical" />
               <SelectFrom
                 name="endPlace"
-                nameSub="endPlaceSub"
                 icon="streamline-ultimate:trip-road"
                 placeholder="Хаашаа"
               />
@@ -113,12 +114,12 @@ export default function FilterCard() {
                 placeholder="Өнөөдөр"
                 icon="solar:calendar-outline"
               />
-              <Separator orientation="vertical" />
+              {/* <Separator orientation="vertical" />
               <IconButton
                 title="1 зорчигч"
                 icon="solar:user-circle-outline"
                 color="#98A2B3"
-              />
+              /> */}
             </div>
             <Button
               // asChild
