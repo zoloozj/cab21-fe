@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default function RideCard({ ride }: Props) {
-  console.log(ride, "RIDE");
   const { user } = useUser();
   return (
     <Card className="flex-1 min-w-[300px] gap-2 bg-white px-3">
@@ -29,14 +28,12 @@ export default function RideCard({ ride }: Props) {
       />
       <div className="flex gap-4 justify-between">
         <Link
-          href={
-            ride.capacity !== ride.passenger_count ? `tel:${user?.phone}` : "#"
-          }
+          href={ride.ride_status !== "FULL" ? `tel:${user?.phone}` : "#"}
           aria-label={`Call ${user?.phone}`}
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
-          {/* Жолоочтой холбогдох{" "} */}
-          {user?.phone}
+          Жолоочтой холбогдох
+          {/* {user?.phone} */}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
         <OrderRide ride={ride} />

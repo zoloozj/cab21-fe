@@ -63,7 +63,7 @@ export default function OrderRide({ ride }: Props) {
   }
   const { watch, setValue } = form;
   const passengerN = watch("passengerSeat");
-  const disabled = ride.capacity === ride.passenger_count;
+  const disabled = ride.ride_status === "FULL";
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger disabled={disabled}>
