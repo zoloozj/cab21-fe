@@ -111,7 +111,10 @@ export default function OrderRide({ ride }: Props) {
                 icon="solar:add-circle-linear"
                 width={50}
                 className="cursor-pointer"
-                onClick={() => setValue("passengerSeat", passengerN + 1)}
+                onClick={() => {
+                  if (passengerN < ride.capacity - ride.passenger_count)
+                    setValue("passengerSeat", passengerN + 1);
+                }}
               />
             </div>
             <div className="flex gap-3 justify-around">

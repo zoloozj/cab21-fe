@@ -17,7 +17,7 @@ export default function PassengerMainInfo({ setStep }: Props) {
 
   const nextStep = useCallback(() => {
     let hasError = false;
-    const { email, firstName, lastName, registryNumber, birthday } =
+    const { email, firstName, lastName, registryNumber, birthday, phone } =
       getValues();
 
     // Helper to mark an error and remember that the form has errors
@@ -34,6 +34,7 @@ export default function PassengerMainInfo({ setStep }: Props) {
         ["birthday", birthday],
         ["email", email],
         ["registryNumber", registryNumber],
+        ["phone", phone],
       ] as const
     ).forEach(([key, value]) => {
       if (!value) {
@@ -105,6 +106,12 @@ export default function PassengerMainInfo({ setStep }: Props) {
             icon="ant-design:number-outlined"
             name="registryNumber"
             placeholder="Регистрийн дугаар"
+          />
+          <IconInput
+            icon="solar:phone-linear"
+            name="phone"
+            placeholder="Утасны дугаар"
+            type="number"
           />
           <IconInput
             icon="solar:calendar-date-linear"

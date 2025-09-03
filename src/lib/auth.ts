@@ -14,6 +14,7 @@ export type User = {
   role: "user" | "admin" | string;
   birthday?: number;
   registryNumber?: string;
+  phone: string;
 };
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET!); // HS512 shared secret
@@ -66,13 +67,13 @@ export async function getCurrentUser(): Promise<User | null> {
     return response.data;
   } catch {
     // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
-   cookieStore.delete("token"); // хүчингүй бол устгана
+    cookieStore.delete("token"); // хүчингүй бол устгана
     return null;
   }
 }
 
 export async function getUserCab() {
-    const cookieStore = await cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
   const payload = await verifyJwtHS512(token);

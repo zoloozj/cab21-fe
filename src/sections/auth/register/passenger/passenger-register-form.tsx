@@ -25,6 +25,7 @@ const FormSchema = z
     confirmPassword: z.string(),
     email: z.email({ message: "Мэйл хаяг оруулна уу!" }),
     birthday: z.string(),
+    phone: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Нууц үг тохирохгүй байна!",
@@ -43,6 +44,7 @@ export default function PassengerRegisterForm() {
       confirmPassword: "",
       email: "",
       birthday: undefined,
+      phone: "",
     },
   });
 

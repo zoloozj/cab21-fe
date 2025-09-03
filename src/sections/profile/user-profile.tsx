@@ -33,6 +33,7 @@ export default async function UserProfile() {
             <UserInfo label="И-Мэйл" value={user.email} />
             <UserInfo label="Төрсөн огноо" value={dateString(user.birthday)} />
             <UserInfo label="Регистрийн дугаар" value={user.registryNumber} />
+            <UserInfo label="Утасны дугаар" value={user.phone} />
           </Card>
           <UserCab userId={user.id} />
         </>

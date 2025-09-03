@@ -59,8 +59,10 @@ export default function Login() {
       const from = searchParams.get("from");
       router.push(from || "/");
     },
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: any) => {
+      if (error.status === 401)
+        toast.error("Хэрэглэгчийн нэр, нууц үг буруу байна!");
+      // toast(error.message);
     },
   });
 

@@ -4,6 +4,7 @@ import FilterCard from "@/components/main/filter-card";
 import IconCard from "@/components/main/icon-card";
 import { Button } from "@/components/ui/button";
 import HomeCarousel from "@/components/main/home-carouel";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -63,8 +64,8 @@ export default function Home() {
                 зорчигчоо олоод, бензинд зарцуулах зардлаа хуваалц! Одоо замд
                 гарахад бэлэн үү?"
               </span>
-              <Button type="button" variant="default" size="lg">
-                Аялал нэмэх
+              <Button asChild type="button" variant="default" size="lg">
+                <Link href="/driver-travel">Аялал нэмэх</Link>
               </Button>
             </div>
           </div>

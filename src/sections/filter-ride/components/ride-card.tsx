@@ -3,13 +3,15 @@ import Iconify from "@/components/ui/iconify";
 import { Ride } from "@/sections/types";
 import Link from "next/link";
 import OrderRide from "./order-ride";
-import { Button } from "@/components/ui/button";
+import { useUser } from "@/lib/user-provider";
 
 interface Props {
   ride: Ride;
 }
 
 export default function RideCard({ ride }: Props) {
+  console.log(ride, "RIDE");
+  const { user } = useUser();
   return (
     <Card className="flex-1 min-w-[300px] gap-2 bg-white px-3">
       <RideInfo label="Хөдлөх газар" value={ride.start_place} />
@@ -28,14 +30,13 @@ export default function RideCard({ ride }: Props) {
       <div className="flex gap-4 justify-between">
         <Link
           href={
-            ride.capacity !== ride.passenger_count
-              ? `tel:${ride.driver_user_id}`
-              : "#"
+            ride.capacity !== ride.passenger_count ? `tel:${user?.phone}` : "#"
           }
-          aria-label={`Call ${ride.driver_user_id}`}
+          aria-label={`Call ${user?.phone}`}
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
-          Жолоочтой холбогдох{" "}
+          {/* Жолоочтой холбогдох{" "} */}
+          {user?.phone}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
         <OrderRide ride={ride} />
