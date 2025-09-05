@@ -1,17 +1,14 @@
 "use client";
 
+import { buildGridRequest } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
-import FilterCard from "@/components/main/filter-card";
-import RideCard from "@/sections/filter-ride/components/ride-card";
-import { buildGridRequest } from "@/lib/utils";
 import { Ride } from "../types";
 import { Skeleton } from "@/components/ui/skeleton";
+import FilterCard from "@/components/main/filter-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import Iconify from "@/components/ui/iconify";
-import ShowDeleteFilter from "./components/show-delete-filters";
+import RideCard from "@/sections/filter-ride/components/ride-card";
 
 export function useRides(req: any) {
   return useQuery({

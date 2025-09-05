@@ -15,7 +15,7 @@ export default function HomeCarousel() {
   return (
     <div className="p-4 mt-10 text-center">
       <h1 className="text-2xl font-bold">
-        Манай хамгийн их эрэллтэй чиглэлүүд
+        Манай хамгийн их эрэлттэй чиглэлүүд
       </h1>
       <Carousel
         opts={{

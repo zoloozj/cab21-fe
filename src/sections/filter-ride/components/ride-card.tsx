@@ -28,12 +28,12 @@ export default function RideCard({ ride }: Props) {
       />
       <div className="flex gap-4 justify-between">
         <Link
-          href={ride.ride_status !== "FULL" ? `tel:${user?.phone}` : "#"}
+          href={user ? `tel:${user?.phone}` : "/auth/login"}
           aria-label={`Call ${user?.phone}`}
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
-          Жолоочтой холбогдох
-          {/* {user?.phone} */}
+          {/* Жолоочтой холбогдох */}
+          {ride?.phone}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
         <OrderRide ride={ride} />
@@ -47,7 +47,7 @@ interface InfoProps {
   value: string | number;
 }
 
-function RideInfo({ label, value }: InfoProps) {
+export function RideInfo({ label, value }: InfoProps) {
   return (
     <div className="flex justify-between gap-3 text-sm">
       <span className="text-muted-foreground">{label}:</span>

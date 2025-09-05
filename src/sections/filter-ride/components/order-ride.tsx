@@ -1,8 +1,13 @@
 import { z } from "zod";
 import axios from "axios";
+import Link from "next/link";
+import { toast } from "sonner";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/lib/user-provider";
 import { useMutation } from "@tanstack/react-query";
 
 import {
@@ -18,9 +23,6 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RHFInput from "@/components/hook-form/rhf-input";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 interface Props {
   ride: Ride;
@@ -40,10 +42,14 @@ export default function OrderRide({ ride }: Props) {
     },
     onSuccess: (data) => {
       toast.success("Амжилттай захиаллаа!");
+      setOpen(false);
       router.refresh();
     },
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: any) => {
+      if (error.status === 409)
+        toast.error("Та өөрийн зар дээр бүртгүүлэх боломжгүй!");
+      else toast(error.message);
+      console.log(error);
     },
   });
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -64,6 +70,18 @@ export default function OrderRide({ ride }: Props) {
   const { watch, setValue } = form;
   const passengerN = watch("passengerSeat");
   const disabled = ride.ride_status === "FULL";
+  const { user } = useUser();
+  if (!user)
+    return (
+      <Link
+        href="/auth/login?from=/filter"
+        className="bg-[#6853BD] flex text-white gap-2 justify-center items-center text-sm rounded-lg font-semibold py-2 px-6 cursor-pointer"
+      >
+        {" "}
+        Сонгох
+        <Iconify icon="solar:arrow-right-linear" color="white" width={20} />
+      </Link>
+    );
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger disabled={disabled}>

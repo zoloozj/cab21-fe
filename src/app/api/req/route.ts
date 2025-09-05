@@ -9,7 +9,6 @@ export async function POST(req: Request) {
     const { serviceUrl } = body;
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
-
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;

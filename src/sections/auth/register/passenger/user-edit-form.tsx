@@ -11,23 +11,19 @@ import PasswordInput from "@/app/auth/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import { useUser } from "@/lib/user-provider";
+import { useRouter } from "next/navigation";
 
-const FormSchema = z
-  .object({
-    firstName: z.string(),
-    lastName: z.string(),
-    registryNumber: z.string(),
-    password: z
-      .string()
-      .min(6, { message: "Нууц үг хамгийн багадаа 6 тэмдэгт байх ёстой." }),
-    confirmPassword: z.string(),
-    email: z.email({ message: "Мэйл хаяг оруулна уу!" }),
-    birthday: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Нууц үг тохирохгүй байна!",
-    path: ["confirmPassword"],
-  });
+const FormSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  registryNumber: z.string(),
+  phone: z.string(),
+  password: z.string().min(6, {
+    message: "Та нууц үгээ оруулж баталгаажуулна уу!",
+  }),
+  email: z.email({ message: "Мэйл хаяг оруулна уу!" }),
+  birthday: z.string(),
+});
 
 export default function UserEditForm() {
   const { user } = useUser();
@@ -43,21 +39,23 @@ export default function UserEditForm() {
       lastName: user?.lastName || "",
       registryNumber: user?.registryNumber || "",
       password: "",
-      confirmPassword: "",
       email: user?.email || "",
       birthday: dateString(user?.birthday) || undefined,
+      phone: user?.phone,
     },
   });
 
+  const router = useRouter();
   const mutation = useMutation({
     mutationFn: async (body: any) => {
-      const res = await axios.post("/api/req", body, {
+      const res = await axios.post("/api/user-update", body, {
         headers: { "Content-Type": "application/json" },
       });
       return res.data;
     },
     onSuccess: (data) => {
       toast("Амжилттай засварлалаа!");
+      router.refresh();
     },
     onError: (error: any) => {
       toast.error(
@@ -69,12 +67,9 @@ export default function UserEditForm() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { confirmPassword, ...rest } = data;
     const body = {
-      ...rest,
+      ...data,
       id: user?.id,
-      username: data.email.split("@")[0],
-      serviceUrl: "api/user/update",
     };
     mutation.mutate(body);
   }
@@ -106,6 +101,12 @@ export default function UserEditForm() {
               placeholder="Регистрийн дугаар"
             />
             <IconInput
+              icon="solar:phone-linear"
+              name="phone"
+              placeholder="Утасны дугаар"
+              type="number"
+            />
+            <IconInput
               icon="solar:calendar-date-linear"
               name="birthday"
               placeholder="Төрсөн огноо"
@@ -115,12 +116,6 @@ export default function UserEditForm() {
 
             <p className="text-lg font-bold mt-2">Нууц үг</p>
             <PasswordInput name="password" />
-            <div className="my-3">
-              <PasswordInput
-                name="confirmPassword"
-                placeholder="Нууц үг давтах"
-              />
-            </div>
           </div>
         </ScrollArea>
         <Button

@@ -80,7 +80,9 @@ export default function SelectFrom({ name, icon, placeholder }: Props) {
                   <CommandGroup>
                     {soums.map((language) => (
                       <CommandItem
-                        value={language.label}
+                        value={`${language.label} ${
+                          aimags.find((x) => x.value === language.parent)?.label
+                        }`}
                         key={language.value}
                         onSelect={() => {
                           setValue(name, language.value);

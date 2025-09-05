@@ -1,7 +1,7 @@
 // lib/auth.ts
 import { cookies } from "next/headers";
 import { jwtVerify, JWTPayload } from "jose";
-import axios from "axios";
+// import axios from "axios";
 import { MAIN_API } from "@/config-global";
 
 // types/auth.ts
@@ -52,19 +52,14 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
-  const payload = await verifyJwtHS512(token);
-
-  // 1) Эхлээд /api/me-ээс (cookie дамжуулж) авахыг оролдоно
-
   try {
-    const id = Number((payload as any).uid);
-    const response = await axios.get(`${MAIN_API}/api/user/${id}`, {
+    const response = await fetch(`${MAIN_API}/api/user/get`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
-    return response.data;
+    return response.json();
   } catch {
     // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
     cookieStore.delete("token"); // хүчингүй бол устгана
@@ -76,21 +71,26 @@ export async function getUserCab() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
-  const payload = await verifyJwtHS512(token);
 
-  // 1) Эхлээд /api/me-ээс (cookie дамжуулж) авахыг оролдоно
+  const payload = await verifyJwtHS512(token);
 
   try {
     const id = Number((payload as any).uid);
-    const response = await axios.get(`${MAIN_API}/api/cabs/user/${id}`, {
+    const res = await fetch(`${MAIN_API}/api/cabs/user/${id}`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
+      cache: "no-store", // сервер талаас cache үлдээхгүй
     });
-    return response.data;
+
+    if (!res.ok) {
+      throw new Error(`Fetch failed with status ${res.status}`);
+    }
+
+    return await res.json();
   } catch {
-    // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
     return null;
   }
 }

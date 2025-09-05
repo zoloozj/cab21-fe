@@ -64,6 +64,9 @@ export default async function Header() {
                 <Link href="/profile">Профайл</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link href="/my-rides">Миний зарууд</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <Logout />
           </DropdownMenuContent>
@@ -87,6 +90,7 @@ export default async function Header() {
           <Image
             className="dark:invert hidden md:block"
             src="/assets/logo.svg"
+            // src="/assets/cab21.png"
             alt="Cab21 logo"
             width={180}
             height={38}

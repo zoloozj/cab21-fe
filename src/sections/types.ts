@@ -14,6 +14,7 @@ export interface Ride {
   passenger_count: number;
   booking_user_id: number | null;
   booking_status: string | null;
+  phone: string;
 }
 
 export type TextFilterOp =

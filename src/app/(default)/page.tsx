@@ -24,7 +24,7 @@ export default function Home() {
               fontFamily: "Montserrat, Arial, sans-serif",
             }}
           >
-            Хамтдаа явъя хямдхан, ухаалаг, ээлтэй!
+            Хамтдаа явъя: хямдхан, ухаалаг, ээлтэй!
           </span>
         </div>
         <FilterCard />

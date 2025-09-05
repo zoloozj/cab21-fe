@@ -9,6 +9,7 @@ import EditUserModal from "./edit-user-modal";
 
 export default async function UserProfile() {
   const user = await getCurrentUser();
+  console.log(user, "USER");
   function dateString(date?: number) {
     if (!date) return "";
     return new Date(date).toLocaleDateString("mn-MN", {
@@ -18,7 +19,7 @@ export default async function UserProfile() {
     });
   }
   return (
-    <div className="w-full px-4 xl:max-w-7xl xl:mx-auto mt-5 lg:mt-20">
+    <div className="w-full px-4 xl:max-w-7xl xl:mx-auto mt-5 lg:mt-10">
       {user ? (
         <>
           <Card className="p-4">

@@ -67,13 +67,13 @@ export default function Login() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { remember, ...rest } = data;
+    const { remember, username, ...rest } = data;
     if (remember) {
       localStorage.setItem("rememberedEmail", data.username);
     } else {
       localStorage.removeItem("rememberedEmail");
     }
-    mutation.mutate(rest);
+    mutation.mutate(data);
   }
 
   return (
@@ -110,7 +110,7 @@ export default function Login() {
               Нууц үг мартсан?
             </Link>
           </div>
-          <div className="text-center w-full">
+          <div className="text-center w-full mb-3">
             <Button
               type="submit"
               disabled={mutation.isPending}
