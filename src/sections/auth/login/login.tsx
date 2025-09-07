@@ -54,8 +54,9 @@ export default function Login() {
       return data;
     },
     onSuccess: (user) => {
+      console.log(user, "USER 123");
       toast("Тавтай морил!");
-      setUser(user);
+      setUser(user.user);
       const from = searchParams.get("from");
       router.push(from || "/");
     },

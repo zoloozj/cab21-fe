@@ -49,6 +49,7 @@ export default function CabRegisterForm() {
     },
   });
   const { user } = useUser();
+  console.log(user, "USER");
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const body = {
       ...data,

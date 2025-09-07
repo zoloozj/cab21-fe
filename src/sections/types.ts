@@ -45,3 +45,15 @@ export interface GridRequest {
   sortModel: SortModelItem[];
   filterModel: FilterModel;
 }
+
+export interface Booking {
+  id: number;
+  ride_id: number;
+  user_id: number;
+  status: "BOOKED" | "CANCELLED" | "COMPLETED" | string; // extend as needed
+  seat: number;
+  created_at: string; // ISO timestamp
+  first_name: string;
+  last_name: string;
+  phone: string;
+}

@@ -1,8 +1,7 @@
 // lib/auth.ts
 import { cookies } from "next/headers";
-import { jwtVerify, JWTPayload } from "jose";
-// import axios from "axios";
 import { MAIN_API } from "@/config-global";
+import { jwtVerify, JWTPayload } from "jose";
 
 // types/auth.ts
 export type User = {
@@ -59,7 +58,8 @@ export async function getCurrentUser(): Promise<User | null> {
         Accept: "application/json",
       },
     });
-    return response.json();
+    const user = response.json();
+    return user;
   } catch {
     // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
     cookieStore.delete("token"); // хүчингүй бол устгана
