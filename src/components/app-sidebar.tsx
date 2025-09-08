@@ -38,6 +38,11 @@ export function AppSidebar({ ...props }: Props) {
             url: "/admin/user/user",
             isActive: "/admin/user/user" === pathname,
           },
+          {
+            title: "Идэвхгүй хэрэглэгч",
+            url: "/admin/user/inactive",
+            isActive: "/admin/user/inactive" === pathname,
+          },
         ],
       },
       {
@@ -60,7 +65,7 @@ export function AppSidebar({ ...props }: Props) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <a href="/">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <GalleryVerticalEnd className="size-4" />
                 </div>

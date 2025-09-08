@@ -9,7 +9,6 @@ import EditUserModal from "./edit-user-modal";
 
 export default async function UserProfile() {
   const user = await getCurrentUser();
-  console.log(user, "USER");
   function dateString(date?: number) {
     if (!date) return "";
     return new Date(date).toLocaleDateString("mn-MN", {

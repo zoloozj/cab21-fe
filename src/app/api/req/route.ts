@@ -43,3 +43,27 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function PUT(req: Request) {
+  console.log("THIS WORKS");
+  try {
+    const body = await req.json();
+    const { serviceUrl } = body;
+    delete body.serviceUrl;
+    const url = `${MAIN_API}/${serviceUrl}`;
+    console.log(url, "URL");
+    // Get headers from incoming request
+    const headers = Object.fromEntries(req.headers);
+    const token = (await cookies()).get("token")?.value;
+    const response = await axios.put(url, body, {
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+    });
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    const e = error.response.data;
+    return NextResponse.json(
+      { error: e || "Internal Server Error" },
+      { status: e.status || 500 }
+    );
+  }
+}

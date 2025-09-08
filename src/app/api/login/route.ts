@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { MAIN_API } from "@/config-global";
 
 export async function POST(req: NextRequest) {
-  console.log("this works");
   const body = await req.json();
 
   // Танай backend login endpoint

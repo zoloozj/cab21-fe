@@ -3,11 +3,10 @@
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "sonner";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Form } from "@/components/ui/form";
 import { useUser } from "@/lib/user-provider";
@@ -23,6 +22,7 @@ const FormSchema = z.object({
 
 export default function CabRegisterForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -40,6 +40,7 @@ export default function CabRegisterForm() {
     onSuccess: (data) => {
       toast("Амжилттай бүртгүүллээ!");
       router.back();
+      router.refresh();
     },
     onError: (error: any) => {
       toast.error(
@@ -49,7 +50,7 @@ export default function CabRegisterForm() {
     },
   });
   const { user } = useUser();
-  console.log(user, "USER");
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const body = {
       ...data,

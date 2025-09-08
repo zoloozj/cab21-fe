@@ -1,7 +1,7 @@
 // middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyJwtHS512 } from "./lib/auth";
+import { getCurrentUser, verifyJwtHS512 } from "./lib/auth";
 
 const PROTECTED_ROUTES = [
   "/driver-travel",
@@ -32,6 +32,12 @@ export async function middleware(request: NextRequest) {
       const homeUrl = new URL("/", request.url);
       return NextResponse.redirect(homeUrl);
     }
+  }
+
+  const user = await getCurrentUser();
+  if (pathname.startsWith("/admin") && user?.role !== "admin") {
+    const homeUrl = new URL("/", request.url);
+    return NextResponse.redirect(homeUrl);
   }
 
   return NextResponse.next();

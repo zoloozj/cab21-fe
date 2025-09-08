@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: Props) {
             <SidebarTrigger />
           </div>
         </header>
-        {children}
+        <div className="p-4 m-0">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -1,20 +1,20 @@
+import axios from "axios";
+import Link from "next/link";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useCallback } from "react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Booking, Ride } from "@/sections/types";
 import { getRequest } from "@/lib/request";
 import Iconify from "@/components/ui/iconify";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Booking, Ride } from "@/sections/types";
 import { Separator } from "@/components/ui/separator";
 import { RideInfo } from "@/sections/filter-ride/components/ride-card";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useCallback } from "react";
-import axios from "axios";
-import { toast } from "sonner";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 export async function getBookings() {}
 
@@ -38,7 +38,7 @@ export default function RideDetails({ ride }: Props) {
     },
   };
   const { data, isError, isPending, error } = useQuery({
-    queryKey: ["getBookings"],
+    queryKey: ["getBookings", ride.id, "getMyRides"],
     queryFn: () => getRequest(body),
     staleTime: 30_000,
     refetchOnWindowFocus: false,
@@ -50,7 +50,7 @@ export default function RideDetails({ ride }: Props) {
       return res.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["getBookings"] });
+      queryClient.invalidateQueries({ queryKey: ["getBookings", ride.id] });
     },
     onError: (error: any) => {
       console.log(error, "ERROR");
@@ -86,6 +86,7 @@ export default function RideDetails({ ride }: Props) {
                 value={`${item.last_name.charAt(0)}. ${item.first_name}`}
               />
               <RideInfo label="Утасны дугаар" value={item.phone} />
+              <RideInfo label="Захиалсан суудал" value={item.seat} />
               <div className="flex justify-between gap-3 my-3">
                 <Link
                   href={`tel:${item?.phone}`}

@@ -1,3 +1,5 @@
+import { ChartAreaInteractive } from "./chart-are-interactive";
+
 export default function AdminDashboard() {
-  return <div>DashBoard</div>;
+  return <ChartAreaInteractive />;
 }

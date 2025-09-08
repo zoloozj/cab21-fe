@@ -6,6 +6,7 @@ import QueryProvider from "@/lib/query-provider";
 
 import { getCurrentUser } from "@/lib/auth";
 import UserProvider from "@/lib/user-provider";
+import { LoaderWrapper } from "@/components/main/loader-wrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,14 +29,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#F5F5F5]`}
       >
         <UserProvider initialUser={user}>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <LoaderWrapper>{children}</LoaderWrapper>
+          </QueryProvider>
         </UserProvider>
         <Toaster />
       </body>

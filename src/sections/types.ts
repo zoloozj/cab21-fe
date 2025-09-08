@@ -57,3 +57,22 @@ export interface Booking {
   last_name: string;
   phone: string;
 }
+
+export interface UserDetail {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  birthday: [number, number, number, number, number]; // [year, month, day, hour, minute]
+  registry_number: string;
+  phone: string;
+  role: "user" | "admin" | string; // extend if you know all roles
+  status: number;
+  email: string;
+  created_at: string; // ISO datetime string
+  updated_at: string; // ISO datetime string
+  cab_plate: string;
+  cab_model: string;
+  cab_passenger_seat: number;
+  cab_status: number;
+}

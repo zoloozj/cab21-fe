@@ -1,9 +1,18 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { User } from "@/lib/auth";
 import { customError } from "@/lib/utils";
+import CabInfo from "@/sections/auth/register/cab/cab-info";
+import { RideInfo } from "@/sections/filter-ride/components/ride-card";
+import { UserInfo } from "@/sections/profile/user-info";
+import { UserDetail } from "@/sections/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import UserDetailPage from "./components/user-detail";
+import ChangePasswordDialog from "./components/change-password-dialog";
 
 async function fetchUserInfo(body: any) {
   const response = await axios.post(`/api/req`, body);
@@ -13,9 +22,14 @@ async function fetchUserInfo(body: any) {
   return response.data;
 }
 
-export default function UserList() {
+interface Props {
+  cab?: boolean;
+  inactive?: boolean;
+}
+
+export default function UserList({ cab = false, inactive }: Props) {
   const body = {
-    endRow: 10,
+    endRow: 100,
     startRow: 0,
     sortModel: [
       {
@@ -23,7 +37,13 @@ export default function UserList() {
         sort: "desc",
       },
     ],
-    filterModel: {},
+    filterModel: {
+      status: {
+        filter: inactive ? 0 : 1,
+        filterType: "number",
+        type: "equals",
+      },
+    },
     serviceUrl: "api/user/grid",
   };
   const { data, error, isLoading } = useQuery({
@@ -42,6 +62,28 @@ export default function UserList() {
       </div>
     );
 
-  console.log(data);
-  return <div>User Lst</div>;
+  const type = cab ? 1 : null;
+  const users = data.data.filter((x: UserDetail) => x.cab_status === type);
+  return (
+    <div className="flex flex-wrap gap-3">
+      {data?.data.length > 0 ? (
+        users.map((user: UserDetail) => (
+          <Card key={user.id} className="min-w-[300px] flex-1 p-4">
+            <RideInfo
+              label="Овог нэр"
+              value={`${user.last_name} ${user.first_name}`}
+            />
+            <RideInfo label="Мэйл хаяг" value={user.email} />
+            <RideInfo label="Гар утас" value={user.phone} />
+            <div className="flex items-center justify-between">
+              <ChangePasswordDialog user={user} />
+              <UserDetailPage user={user} cab={cab} inactive={inactive} />
+            </div>
+          </Card>
+        ))
+      ) : (
+        <p>Хэрэглэгч олдсонгүй</p>
+      )}
+    </div>
+  );
 }
