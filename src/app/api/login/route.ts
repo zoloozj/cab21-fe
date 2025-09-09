@@ -29,10 +29,10 @@ export async function POST(req: NextRequest) {
   const c = await cookies();
   c.set("token", token, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 120, // 120 минут
+    maxAge: 60 * 1440, // 1440 минут 1 өдөр
   });
 
   // Хэрэв refresh байвал энд нэмж тавина

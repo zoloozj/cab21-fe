@@ -2,6 +2,8 @@ import { Card } from "@/components/ui/card";
 import { RideInfo } from "@/sections/filter-ride/components/ride-card";
 import { Ride } from "@/sections/types";
 import RideDetails from "./details";
+import EditRideModal from "@/sections/admin/rides/components/edit-ride-modal";
+import DeleteRideModal from "@/sections/admin/rides/components/delete-ride-modal";
 
 interface Props {
   ride: Ride;
@@ -23,7 +25,13 @@ export default function MyRideCard({ ride }: Props) {
         label="Зардал"
         value={`${Number(ride.ticket_price).toLocaleString()}₮`}
       />
-      <RideDetails key={ride.ride_id} ride={ride} />
+      <div className="flex justify-between items-center">
+        <div className="m-0 p-0 flex justify-start gap-2">
+          <EditRideModal ride={ride} />
+          <DeleteRideModal ride={ride} />
+        </div>
+        <RideDetails key={ride.ride_id} ride={ride} />
+      </div>
     </Card>
   );
 }

@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import DeleteRideModal from "./components/delete-ride-modal";
 import { Skeleton } from "@/components/ui/loader";
+import EditRideModal from "./components/edit-ride-modal";
 
 export default function RideList() {
   const router = useRouter();
@@ -101,9 +102,7 @@ export default function RideList() {
               <RideInfo label="Очих газар" value={item.end_place} />
               <div className="flex justify-between">
                 <div className="m-0 p-0 flex justify-start gap-2">
-                  <Button type="button" variant="ghost">
-                    <Iconify icon="solar:pen-bold" />
-                  </Button>
+                  <EditRideModal ride={item} />
                   <DeleteRideModal ride={item} />
                 </div>
                 <Collapsible className="text-end">

@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
@@ -16,35 +16,56 @@ import PassengerNumber from "./components/passenger-number";
 import TravelDateSelect from "./components/travel-date-select";
 import DestinationSelect from "./components/destination-select";
 import axios from "axios";
+import { Ride } from "../types";
 
 const FormSchema = z.object({
   startPlace: z.string().min(1, { message: "" }),
   startPlaceSub: z.string().min(1, { message: "" }),
   endPlace: z.string().min(1, { message: "" }),
   endPlaceSub: z.string().min(1, { message: "" }),
-  startDate: z.date().min(1, { message: "" }),
-  startTime: z.string().min(2, { message: "" }),
+  startDate: z.date().optional(),
+  startTime: z.string().optional(),
   ticketPrice: z.number().min(1, { message: "" }),
   passengerSeat: z.number().min(1, { message: "" }).max(10, { message: "" }),
 });
 
 interface Props {
   cabId: number;
+  editD?: Ride;
 }
 
-export default function DriverTravelForm({ cabId }: Props) {
+export default function DriverTravelForm({ cabId, editD }: Props) {
   const router = useRouter();
+  const aimag = (aimag: string[] | ""): string | undefined => {
+    return aimags.find((x) => x.label === aimag[0]?.trim())?.value;
+  };
+  const soum = (
+    soum: string[] | "",
+    aimag: string | undefined
+  ): string | undefined => {
+    return soums.find((x) => x.parent === aimag && x.label === soum[1]?.trim())
+      ?.value;
+  };
+  const defaultValues = useMemo(() => {
+    const startPlace = editD?.start_place.split("-") || "";
+    const endPlace = editD?.end_place.split("-") || "";
+    const startTime = editD?.start_time.split(" ") || "";
+    console.log(startTime, "TIME");
+
+    return {
+      startPlace: aimag(startPlace) || "",
+      startPlaceSub: soum(startPlace, aimag(startPlace)) || "",
+      endPlace: aimag(endPlace) || "",
+      endPlaceSub: soum(endPlace, aimag(endPlace)) || "",
+      startDate: editD ? new Date(startTime[0]) : undefined,
+      startTime: editD ? startTime[1] : undefined,
+      ticketPrice: editD?.ticket_price || 0,
+      passengerSeat: editD?.capacity || 1,
+    };
+  }, [editD]);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      startPlace: "",
-      startPlaceSub: "",
-      endPlace: "",
-      endPlaceSub: "",
-      startDate: undefined,
-      startTime: undefined,
-      passengerSeat: 1,
-    },
+    defaultValues,
   });
 
   const mutation = useMutation({
@@ -68,8 +89,7 @@ export default function DriverTravelForm({ cabId }: Props) {
     )?.label;
     const endPlace = aimags.find((a) => a.value === data.endPlace)?.label;
     const endPlaceSubT = soums.find((s) => s.value === data.endPlaceSub)?.label;
-    const startDateT = data.startDate.toLocaleDateString("en-CA");
-    console.log(data.startDate, "DATE");
+    const startDateT = data.startDate?.toLocaleDateString("en-CA");
     const { endPlaceSub, startPlaceSub, startTime, startDate, ...rest } = data;
     const finalvalue = {
       ...rest,
@@ -79,7 +99,8 @@ export default function DriverTravelForm({ cabId }: Props) {
       serviceUrl: "api/rides/create",
       cabId,
     };
-    mutation.mutate(finalvalue);
+    if (editD) console.log(finalvalue);
+    else mutation.mutate(finalvalue);
   }
 
   const [step, setStep] = useState(1);

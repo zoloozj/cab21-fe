@@ -53,6 +53,7 @@ export default function MyRidesList() {
         </div>
       </div>
     );
+  console.log(paramsObject?.status, "STATUS");
   return (
     <div className="w-full px-4 xl:max-w-7xl xl:mx-auto">
       <Tabs defaultValue={paramsObject?.status ? paramsObject.status : "OPEN"}>
@@ -62,22 +63,27 @@ export default function MyRidesList() {
             className="w-full"
             onClick={() => handleClick("OPEN")}
           >
-            Идэвхтэй
+            Нээлттэй
           </TabsTrigger>
           <TabsTrigger
             value="CLOSED"
             className="w-full"
             onClick={() => handleClick("FULL")}
           >
-            Идэвхгүй
+            Дүүрэн
           </TabsTrigger>
         </TabsList>
       </Tabs>
       <div className="flex flex-wrap gap-3 justify-between mt-10">
-        {data?.data?.length > 0 &&
+        {data?.data?.length > 0 ? (
           data?.data.map((ride: Ride) => (
             <MyRideCard key={ride.id} ride={ride} />
-          ))}
+          ))
+        ) : (
+          <p className="text-gray-500 text-xl text-center w-full">
+            Мэдээлэл олдсонгүй!
+          </p>
+        )}
       </div>
     </div>
   );
