@@ -10,7 +10,7 @@ export default function AuthLayout({
     <div className="h-screen">
       <section className="h-full flex flex-col items-center justify-center -mt-28">
         <Image
-          src="/assets/cab21.png"
+          src="/assets/logo.png"
           width={250}
           height={200}
           alt="Аваад явъя"
