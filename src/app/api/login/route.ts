@@ -26,13 +26,17 @@ export async function POST(req: NextRequest) {
   // { token, type: "Bearer", user: {...} }
   const { token, user } = await res.json();
 
+  const isProd = process.env.NODE_ENV === "production";
+  const domain = isProd && process.env.APP_DOMAIN ? `.zakhzeel.mn` : undefined;
+
   const c = await cookies();
   c.set("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: isProd,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 1440, // 1440 минут 1 өдөр
+    maxAge: 60 * 60 * 24, // 1440 минут 1 өдөр
+    domain,
   });
 
   // Хэрэв refresh байвал энд нэмж тавина
