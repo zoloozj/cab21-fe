@@ -65,7 +65,7 @@ export default async function Header() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href="/my-rides">Миний зарууд 1</Link>
+              <Link href="/my-rides">Миний зарууд</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/my-booking">Миний аялал</Link>

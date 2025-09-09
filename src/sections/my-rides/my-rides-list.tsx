@@ -15,7 +15,7 @@ export default function MyRidesList() {
   const searchParams = useSearchParams();
   const paramsObject = Object.fromEntries(searchParams.entries());
   const body = {
-    serviceUrl: "api/rides/checklist/grid",
+    serviceUrl: "api/booking/bookings/grid",
     startRow: 0,
     endRow: 100,
     sortModel: [{ colId: "id", sort: "desc" }],
@@ -32,7 +32,7 @@ export default function MyRidesList() {
       },
     },
   };
-  const { data, isError, isPending, error } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["getMyRides", paramsObject],
     queryFn: () => postRequest(body),
     staleTime: 30_000,
@@ -53,7 +53,6 @@ export default function MyRidesList() {
         </div>
       </div>
     );
-  console.log(paramsObject?.status, "STATUS");
   return (
     <div className="w-full px-4 xl:max-w-7xl xl:mx-auto">
       <Tabs defaultValue={paramsObject?.status ? paramsObject.status : "OPEN"}>

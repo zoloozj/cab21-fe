@@ -10,6 +10,7 @@ const PROTECTED_ROUTES = [
   "/profile",
   "/edit-user",
   "/my-rides",
+  "/my-booking",
 ]; // add all private routes here
 
 export async function middleware(request: NextRequest) {
