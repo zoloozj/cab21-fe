@@ -15,7 +15,7 @@ export default function MyRidesList() {
   const searchParams = useSearchParams();
   const paramsObject = Object.fromEntries(searchParams.entries());
   const body = {
-    serviceUrl: "api/booking/bookings/grid",
+    serviceUrl: "api/rides/checklist/grid",
     startRow: 0,
     endRow: 100,
     sortModel: [{ colId: "id", sort: "desc" }],

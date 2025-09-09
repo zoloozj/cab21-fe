@@ -76,3 +76,15 @@ export interface UserDetail {
   cab_passenger_seat: number;
   cab_status: number;
 }
+
+export type RideBooking = {
+  id: number;
+  ride_id: number;
+  user_id: number;
+  status: "APPROVED" | "BOOKED" | "CANCELLED"; // extend if more statuses exist
+  seat: number;
+  created_at: string; // ISO timestamp from backend
+  first_name: string;
+  last_name: string;
+  phone: string;
+};
