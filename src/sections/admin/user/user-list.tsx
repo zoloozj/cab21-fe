@@ -1,26 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { postRequest } from "@/lib/request";
 import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { User } from "@/lib/auth";
-import { customError } from "@/lib/utils";
-import CabInfo from "@/sections/auth/register/cab/cab-info";
-import { RideInfo } from "@/sections/filter-ride/components/ride-card";
-import { UserInfo } from "@/sections/profile/user-info";
 import { UserDetail } from "@/sections/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 import UserDetailPage from "./components/user-detail";
+import { RideInfo } from "@/sections/filter-ride/components/ride-card";
 import ChangePasswordDialog from "./components/change-password-dialog";
-
-async function fetchUserInfo(body: any) {
-  const response = await axios.post(`/api/req`, body);
-  if (response.status !== 200) {
-    await customError(response.data);
-  }
-  return response.data;
-}
 
 interface Props {
   cab?: boolean;
@@ -48,7 +35,7 @@ export default function UserList({ cab = false, inactive }: Props) {
   };
   const { data, error, isLoading } = useQuery({
     queryKey: ["userInfo", body],
-    queryFn: () => fetchUserInfo(body),
+    queryFn: () => postRequest(body),
   });
   if (error) return <p>Сервер дээр алдаа гарсан байна!</p>;
   if (isLoading)

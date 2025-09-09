@@ -1,7 +1,7 @@
 "use client";
 
 import { Ride } from "@/sections/types";
-import { getRequest } from "@/lib/request";
+import { postRequest } from "@/lib/request";
 import { useUser } from "@/lib/user-provider";
 import { useQuery } from "@tanstack/react-query";
 import MyRideCard from "./components/my-ride-card";
@@ -34,7 +34,7 @@ export default function MyRidesList() {
   };
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["getMyRides", paramsObject],
-    queryFn: () => getRequest(body),
+    queryFn: () => postRequest(body),
     staleTime: 30_000,
     refetchOnWindowFocus: false,
   });

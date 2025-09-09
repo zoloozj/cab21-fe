@@ -50,7 +50,7 @@ export function AppSidebar({ ...props }: Props) {
         url: "#",
         items: [
           {
-            title: "Идэвхтэй зарууд",
+            title: "Зарууд",
             url: "/admin/rides",
             isActive: "/admin/rides" === pathname,
           },

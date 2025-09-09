@@ -8,7 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { getRequest } from "@/lib/request";
+import { postRequest } from "@/lib/request";
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import { Booking, Ride } from "@/sections/types";
@@ -39,7 +39,7 @@ export default function RideDetails({ ride }: Props) {
   };
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["getBookings", ride.id, "getMyRides"],
-    queryFn: () => getRequest(body),
+    queryFn: () => postRequest(body),
     staleTime: 30_000,
     refetchOnWindowFocus: false,
   });
