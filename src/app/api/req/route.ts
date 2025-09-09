@@ -44,6 +44,25 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function DELETE(req: NextRequest) {
+  try {
+    const url = req.nextUrl.searchParams.get("url");
+    const headers = Object.fromEntries(req.headers);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    const response = await axios.delete(`${MAIN_API}/${url}`, {
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+    });
+    return NextResponse.json(response.data);
+  } catch (error: any) {
+    const e = error.response.data;
+    return NextResponse.json(
+      { error: e || "Internal Server Error" },
+      { status: e.status || 500 }
+    );
+  }
+}
+
 export async function PUT(req: Request) {
   console.log("THIS WORKS");
   try {
