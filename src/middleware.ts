@@ -1,11 +1,11 @@
 // middleware.ts
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getCurrentUser, verifyJwtHS512 } from "./lib/auth";
 
 const PROTECTED_ROUTES = [
   "/driver-travel",
-  "/passenger-travel",
   "/cab",
   "/profile",
   "/edit-user",
@@ -24,20 +24,25 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
+  const hdrs = await headers();
+  const protocol = hdrs.get("x-forwarded-proto") || "http";
+  const host = hdrs.get("host")!;
+  const baseUrl = `${protocol}://${host}`;
+
   if (isProtected && !valid) {
-    const loginUrl = new URL("/auth/login", request.url);
+    const loginUrl = new URL("/auth/login", baseUrl);
     loginUrl.searchParams.set("from", pathname); // redirect back after login
     return NextResponse.redirect(loginUrl);
   } else {
     if (pathname.startsWith("/auth") && valid) {
-      const homeUrl = new URL("/", request.url);
+      const homeUrl = new URL("/", baseUrl);
       return NextResponse.redirect(homeUrl);
     }
   }
 
   const user = await getCurrentUser();
   if (pathname.startsWith("/admin") && user?.role !== "admin") {
-    const homeUrl = new URL("/", request.url);
+    const homeUrl = new URL("/", baseUrl);
     return NextResponse.redirect(homeUrl);
   }
 
