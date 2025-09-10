@@ -8,14 +8,14 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
 
   // Танай backend login endpoint
-  const res = await fetch(`${MAIN_API}/api/auth/login`, {
+  const apiRes = await fetch(`${MAIN_API}/api/auth/login`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
     cache: "no-store",
   });
 
-  if (!res.ok) {
+  if (!apiRes.ok) {
     return NextResponse.json(
       { message: "Нэвтрэх нэр, нууц үг буруу байна!" },
       { status: 401 }
@@ -24,24 +24,26 @@ export async function POST(req: NextRequest) {
 
   // Та жишээ payload өгсөн:
   // { token, type: "Bearer", user: {...} }
-  const { token, user } = await res.json();
+  const { token, user } = await apiRes.json();
 
   const isProd = process.env.NODE_ENV === "production";
-  const domain = isProd && process.env.APP_DOMAIN ? `.zakhzeel.mn` : undefined;
+  const domain = isProd ? ".zakhzeel.mn" : undefined; // локал/IP үед domain тавихгүй
 
-  const c = await cookies();
-  c.set("token", token, {
+  const res = NextResponse.json({ user });
+  res.cookies.set({
+    name: "token",
+    value: token,
     httpOnly: true,
-    secure: isProd,
+    secure: isProd, // prod=HTTPS үед true, локал/IP үед false
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24, // 1440 минут 1 өдөр
-    domain,
+    domain, // зөвхөн prod домэйн дээр
+    maxAge: 60 * 60 * 24,
   });
 
   // Хэрэв refresh байвал энд нэмж тавина
   // c.set("refresh", data.refresh, {...})
 
   // Клиентэд user-г буцаах албагүй. Гэхдээ UI-д toast хийхэд ашигтай бол зөвхөн нэр/имэйл зэргийг буцааж болно.
-  return NextResponse.json({ user });
+  return res;
 }
