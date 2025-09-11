@@ -1,10 +1,27 @@
 import Link from "next/link";
-import { getUserCab } from "@/lib/auth";
 
 import DriverTravelForm from "@/sections/driver/driver-travel-form";
+import { headers } from "next/headers";
+
+async function fetchUserCab() {
+  const h = headers();
+  const host = (await h).get("x-forwarded-host") ?? (await h).get("host");
+  const proto = (await h).get("x-forwarded-proto") ?? "http";
+  const baseUrl = `${proto}://${host}`;
+  // Server→Server call; cookies are forwarded automatically for same-origin
+  const res = await fetch(`${baseUrl}/api/cabs`, {
+    method: "GET",
+    cache: "no-store",
+    // If you deploy behind the same domain, relative path also works:
+    // fetch("/api/cabs/me", { cache: "no-store" })
+  });
+
+  if (!res.ok) return null;
+  return res.json();
+}
 
 export default async function DriverTravelPage() {
-  const cab = await getUserCab();
+  const cab = await fetchUserCab();
   if (!cab)
     return (
       <div className="mt-3">
