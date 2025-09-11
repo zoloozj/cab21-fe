@@ -95,7 +95,7 @@ export default async function Header() {
         <Link href="/">
           <Image
             className="dark:invert hidden md:block"
-            src="/assets/logo.svg"
+            src="/assets/logo2.png"
             // src="/assets/cab21.png"
             alt="Cab21 logo"
             width={180}
@@ -113,7 +113,7 @@ export default async function Header() {
         <UserButton />
         <Link href="/">
           <Image
-            src="/assets/logo2.svg"
+            src="/assets/logo2.png"
             width={100}
             height={100}
             alt="Аваад явий"
