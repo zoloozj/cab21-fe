@@ -16,6 +16,9 @@ import {
 import Logout from "./logout";
 import { getCurrentUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Header() {
   const user = await getCurrentUser();
 

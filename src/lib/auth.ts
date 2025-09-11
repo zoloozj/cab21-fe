@@ -51,20 +51,19 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
-  try {
-    const response = await fetch(`${MAIN_API}/api/user/get`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
-    const user = response.json();
-    return user;
-  } catch {
-    // 2) Хэрэв амжилтгүй бол JWT-ийг шалгана
-    cookieStore.delete("token"); // хүчингүй бол устгана
-    return null;
-  }
+  const response = await fetch(`${MAIN_API}/api/user/get`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    },
+    cache: "no-store", // ❗ кэшлэхгүй
+  });
+
+  if (!response.ok) return null;
+
+  // ❗ заавал await
+  const user: User = await response.json();
+  return user;
 }
 
 export async function getUserCab() {
