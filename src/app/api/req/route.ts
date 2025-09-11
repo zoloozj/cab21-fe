@@ -14,7 +14,10 @@ export async function POST(req: Request) {
     const token = (await cookies()).get("token")?.value;
     console.log(url, token, "URL");
     const response = await axios.post(url, body, {
-      headers: { ...headers, Authorization: `Bearer ${token}` },
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
     });
     return NextResponse.json(response.data);
   } catch (error: any) {
@@ -35,7 +38,10 @@ export async function GET(req: NextRequest) {
     const token = cookieStore.get("token")?.value;
     console.log(url, token, "URL");
     const response = await axios.get(`${MAIN_API}/${url}`, {
-      headers: { ...headers, Authorization: `Bearer ${token}` },
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
     });
     return NextResponse.json(response.data);
   } catch (error: any) {
@@ -54,7 +60,10 @@ export async function DELETE(req: NextRequest) {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     const response = await axios.delete(`${MAIN_API}/${url}`, {
-      headers: { ...headers, Authorization: `Bearer ${token}` },
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
     });
     return NextResponse.json(response.data);
   } catch (error: any) {
@@ -78,7 +87,10 @@ export async function PUT(req: Request) {
     const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
     const response = await axios.put(url, body, {
-      headers: { ...headers, Authorization: `Bearer ${token}` },
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
     });
     return NextResponse.json(response.data);
   } catch (error: any) {
