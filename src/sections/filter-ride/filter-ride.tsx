@@ -34,18 +34,24 @@ export function useRides(req: any) {
 export default function FilterRide() {
   const searchParams = useSearchParams();
   const paramsObject = Object.fromEntries(searchParams.entries());
-  const { data, isLoading, isError, error } = useRides({
+  const { data, isPending, isError, error } = useRides({
     serviceUrl: "api/rides/checklist/grid",
     ...buildGridRequest(paramsObject),
   });
 
-  if (isLoading)
+  if (isPending)
     return (
-      <div className="flex flex-col space-y-3 mt-3">
-        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
+      <div className="w-full px-4 xl:max-w-7xl xl:mx-auto lg:mt-20">
+        <div className="flex flex-wrap gap-3 justify-between mt-10">
+          {[1, 2, 3, 4].map((x) => (
+            <div key={x} className="flex flex-col space-y-3 mt-3">
+              <Skeleton className="h-[125px] w-[250px] bg-gray-200 rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px] bg-gray-200" />
+                <Skeleton className="h-4 w-[200px] bg-gray-200" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

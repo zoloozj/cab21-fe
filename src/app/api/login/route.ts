@@ -6,7 +6,6 @@ import { MAIN_API } from "@/config-global";
 export async function POST(req: NextRequest) {
   const body = await req.json();
   console.log(`${MAIN_API}/api/auth/login`, "URL");
-  // Танай backend login endpoint
   const apiRes = await fetch(`${MAIN_API}/api/auth/login`, {
     method: "POST",
     headers: { "content-type": "application/json" },

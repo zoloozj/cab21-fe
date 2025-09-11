@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { serviceUrl } = body;
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
-
+    console.log(url);
     // Get headers from incoming request
     const headers = Object.fromEntries(req.headers);
     const response = await axios.post(url, body, { headers });
