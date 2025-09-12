@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import PasswordForm from "@/sections/auth/components/password-form";
 import PassengerMainInfo from "@/sections/auth/components/main-info";
-import { User } from "@/lib/auth";
 
 const FormSchema = z
   .object({
@@ -50,7 +49,7 @@ export default function PassengerRegisterForm() {
 
   const mutation = useMutation({
     mutationFn: async (body: any) => {
-      const res = await axios.post("/api/auth", body, {
+      const res = await axios.post("/api/user/create", body, {
         headers: { "Content-Type": "application/json" },
       });
       return res.data;
