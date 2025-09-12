@@ -49,9 +49,7 @@ export default function PassengerRegisterForm() {
 
   const mutation = useMutation({
     mutationFn: async (body: any) => {
-      const res = await axios.post("/api/user/create", body, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await axios.post("/api/user-create", body);
       return res.data;
     },
     onSuccess: (data) => {
@@ -70,9 +68,8 @@ export default function PassengerRegisterForm() {
     const { confirmPassword, ...rest } = data;
     const body = {
       ...rest,
-      serviceUrl: "api/user/create",
       role: "user",
-      username: data.email.split("@")[0],
+      username: data.phone,
     };
     mutation.mutate(body);
   }
