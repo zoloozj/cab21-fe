@@ -56,6 +56,9 @@ export default async function Header() {
                 height={30}
                 priority
               />
+              <span className="text-muted-foreground">
+                {`${user?.firstName}`}
+              </span>
               <Iconify icon="solar:alt-arrow-down-linear" color="#667085" />
             </Button>
             {/* </Button> */}

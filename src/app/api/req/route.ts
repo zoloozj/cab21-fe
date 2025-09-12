@@ -36,7 +36,6 @@ export async function GET(req: NextRequest) {
     const headers = Object.fromEntries(req.headers);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    console.log(url, token, "URL");
     const response = await axios.get(`${MAIN_API}/${url}`, {
       headers: {
         "content-type": "application/json",

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import DriverTravelForm from "@/sections/driver/driver-travel-form";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 async function fetchUserCab() {
   const h = headers();
@@ -9,9 +9,17 @@ async function fetchUserCab() {
   const proto = (await h).get("x-forwarded-proto") ?? "http";
   const baseUrl = `${proto}://${host}`;
   // Server→Server call; cookies are forwarded automatically for same-origin
+
+  const cookieStore = await cookies(); // ✅ always await
+  const cookieHeader = cookieStore.toString(); // одоо OK
   const res = await fetch(`${baseUrl}/api/cabs`, {
     method: "GET",
     cache: "no-store",
+    headers: {
+      // 🔑 Server→Server үед cookie-г ингэж дамжуулна
+      cookie: cookieHeader,
+      accept: "application/json",
+    },
     // If you deploy behind the same domain, relative path also works:
     // fetch("/api/cabs/me", { cache: "no-store" })
   });

@@ -1,15 +1,13 @@
 // app/api/cabs/me/route.ts
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { MAIN_API } from "@/config-global";
-// ⬇️ adjust this import to wherever your verify function lives
 import { verifyJwtHS512 } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const cookieStore = cookies(); // ✅ sync in route handlers
-    const token = (await cookieStore).get("token")?.value;
-
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
     if (!token) {
       return NextResponse.json({ error: "No token" }, { status: 401 });
     }
@@ -20,7 +18,6 @@ export async function GET() {
     if (!Number.isFinite(uid)) {
       return NextResponse.json({ error: "Invalid uid" }, { status: 400 });
     }
-
     const apiRes = await fetch(`${MAIN_API}/api/cabs/user/${uid}`, {
       method: "GET",
       headers: {
