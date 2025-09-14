@@ -106,7 +106,7 @@ export default function Login() {
                 }}
               />
             </span>
-            <Link href="" className="text-[#FFB300]">
+            <Link href="/forgot-password" className="text-[#FFB300]">
               Нууц үг мартсан?
             </Link>
           </div>
