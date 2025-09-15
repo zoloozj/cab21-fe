@@ -12,10 +12,12 @@ import PasswordInput from "@/app/auth/components/password-input";
 import { Button } from "@/components/ui/button";
 import IconInput from "@/components/main/icon-input";
 import { useCallback } from "react";
+import { Loader2Icon } from "lucide-react";
 
 const FormSchema = z
   .object({
-    phone: z.string().min(8, { message: "Утасны дугаар оруулна уу!" }),
+    phone: z.string(),
+    // .min(8, { message: "Утасны дугаар оруулна уу!" }),
     newPassword: z
       .string()
       .min(6, { message: "Нууц үг 6-с дээш оронтой байх ёстой!" }),
@@ -42,7 +44,7 @@ export default function ChangePasswordForm() {
     },
     onSuccess: (data) => {
       toast("Амжилттай Засварлалаа!");
-      redirect("/auth/login");
+      router.push("/auth/login");
     },
     onError: (error: any) => {
       toast.error(
@@ -92,7 +94,11 @@ export default function ChangePasswordForm() {
                   Буцах
                 </Button>
                 <Button type="submit" className="mx-auto flex-1">
-                  Шинэчлэх
+                  {mutation.isPending ? (
+                    <Loader2Icon className="animate-spin" />
+                  ) : (
+                    "Шинэчлэх"
+                  )}
                 </Button>
               </div>
             </div>

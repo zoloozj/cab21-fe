@@ -18,6 +18,9 @@ const FormSchema = z.object({
   }),
   model: z.string().min(2, { message: "Заавал бөглөх талбар" }).max(100),
   passengerSeats: z.string().min(1, { message: "Заавал бөглөх талбар" }).max(2),
+  terms: z.boolean().refine((val) => val === true, {
+    message: "Үйлчилгээний нөхцөлийг зөвшөөрнө үү!",
+  }),
 });
 
 export default function CabRegisterForm() {
@@ -28,7 +31,8 @@ export default function CabRegisterForm() {
     defaultValues: {
       plate: "",
       model: "",
-      passengerSeats: undefined,
+      passengerSeats: "",
+      terms: false,
     },
   });
 
@@ -52,8 +56,9 @@ export default function CabRegisterForm() {
   const { user } = useUser();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    const { terms, ...rest } = data;
     const body = {
-      ...data,
+      ...rest,
       serviceUrl: "api/cabs/create",
       driverName: user?.firstName,
       driverId: user?.id,

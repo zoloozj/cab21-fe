@@ -7,9 +7,13 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import IconInput from "@/components/main/icon-input";
 import { useRouter } from "next/navigation";
+import RFHCheckbox from "@/components/hook-form/rhf-checkbox";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
+import TermsDialog from "./components/terms-dialog";
 
 export default function CabInfo() {
   const router = useRouter();
+  const { control, setValue } = useFormContext();
   const prevPage = () => {
     router.back();
   };
@@ -54,6 +58,26 @@ export default function CabInfo() {
             name="passengerSeats"
             placeholder="Суудлын тоо"
             type="number"
+          />
+          <FormField
+            control={control}
+            name="terms"
+            render={() => (
+              <FormItem>
+                <div className="flex items-center gap-3">
+                  <TermsDialog
+                    onAccept={() =>
+                      setValue("terms", true, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      })
+                    }
+                  />
+                </div>
+                <FormMessage /> {/* terms алдаа энд харагдана */}
+              </FormItem>
+            )}
           />
         </div>
       </div>

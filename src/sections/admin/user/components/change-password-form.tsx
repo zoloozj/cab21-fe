@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form } from "@/components/ui/form";
 import PasswordInput from "@/app/auth/components/password-input";
 import { Button } from "@/components/ui/button";
+import { Loader2Icon } from "lucide-react";
 
 const FormSchema = z
   .object({
@@ -68,8 +69,12 @@ export default function ChangePasswordForm({ phone, setOpen }: Props) {
         <div className="m-2 flex flex-col gap-3 items-end">
           <PasswordInput name="newPassword" />
           <PasswordInput name="confirmPassword" placeholder="Нууц үг давтах" />
-          <Button type="submit" className="w-max">
-            Шинэчлэх
+          <Button type="submit" className="w-max" disabled={mutation.isPending}>
+            {mutation.isPending ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              "Шинэчлэх"
+            )}
           </Button>
         </div>
       </form>
