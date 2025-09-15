@@ -33,9 +33,9 @@ export default function CabInfo() {
 
           <div className="flex justify-center w-full -mt-5">
             <Image
-              src="/assets/logo2.svg"
-              width={100}
-              height={100}
+              src="/assets/logo2.png"
+              width={200}
+              height={150}
               alt="Аваад явий"
               className=""
             />
