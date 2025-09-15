@@ -90,8 +90,9 @@ export default function Login() {
             />
             <RHFInput
               name="username"
-              placeholder="Нэвтрэх нэр"
+              placeholder="Утасны дугаар"
               className="pl-10 py-4 h-12 bg-white"
+              type="number"
             />
           </div>
           <PasswordInput name="password" />
