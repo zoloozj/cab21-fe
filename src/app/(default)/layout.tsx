@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 
 type Props = {
@@ -8,7 +9,8 @@ export default function Layout({ children }: Props) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      {children}
+      <div className="flex-1">{children}</div>
+      <Footer />
     </div>
   );
 }

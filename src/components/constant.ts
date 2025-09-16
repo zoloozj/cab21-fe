@@ -27,7 +27,7 @@ export const soums = [
   { label: "Зуун мод - музей", value: "201", parent: "2" },
   { label: "Драгон Терминал", value: "103", parent: "1" },
   { label: "Тэнгэр Плаза", value: "104", parent: "1" },
-  { label: "Лавай Терминал", value: "105", parent: "1" },
+  { label: "Жем /Эрэл/", value: "105", parent: "1" },
   { label: "Налайх", value: "106", parent: "1" },
   { label: "Багануур", value: "101", parent: "1" },
   { label: "Багахангай", value: "102", parent: "1" },

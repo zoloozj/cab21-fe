@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function HomeCarousel() {
   return (
@@ -47,17 +48,20 @@ export default function HomeCarousel() {
                     <div className="flex justify-between items-center">
                       <div className="flex flex-col items-start">
                         <p className="font-light text-sm text-gray-600">Үнэ</p>
-                        <p className="font-semibold">20,000₮</p>
+                        <p className="font-semibold">7,000₮</p>
                       </div>
                       <Button
                         type="button"
                         size="icon"
                         className="rounded-full cursor-pointer"
+                        asChild
                       >
-                        <Iconify
-                          icon="solar:arrow-right-outline"
-                          color="#FFFFFF"
-                        />
+                        <Link href="/filter?endPlace=201">
+                          <Iconify
+                            icon="solar:arrow-right-outline"
+                            color="#FFFFFF"
+                          />
+                        </Link>
                       </Button>
                     </div>
                   </CardContent>

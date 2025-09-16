@@ -48,11 +48,13 @@ export default function SelectDate({ name, icon, placeholder }: Props) {
                   <Button
                     type="button"
                     variant="ghost"
-                    className={cn("flex gap-1 items-top")}
+                    className={cn(
+                      "flex-col md:flex-row gap-1 text-xs md:text-sm items-top"
+                    )}
                     size="lg"
                   >
                     <Iconify icon={icon} color="#98A2B3" />
-                    <span className="hidden md:block">
+                    <span>
                       {field.value
                         ? field.value.toLocaleDateString("en-CA")
                         : placeholder}
