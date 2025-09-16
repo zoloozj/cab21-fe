@@ -3,6 +3,8 @@ import Link from "next/link";
 import DriverTravelForm from "@/sections/driver/driver-travel-form";
 import { cookies, headers } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 async function fetchUserCab() {
   const h = headers();
   const host = (await h).get("x-forwarded-host") ?? (await h).get("host");

@@ -40,7 +40,6 @@ export default function CabRegisterForm() {
     onSuccess: (data) => {
       toast("Амжилттай бүртгүүллээ!");
       router.push("/driver-travel");
-      router.refresh();
     },
     onError: (error: any) => {
       toast.error(
