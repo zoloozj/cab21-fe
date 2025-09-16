@@ -9,8 +9,6 @@ export async function POST(req: Request) {
     const { serviceUrl } = body;
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
-    // Get headers from incoming request
-    const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
     console.log(url, token, "URL");
     const response = await axios.post(url, body, {
@@ -33,7 +31,6 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const url = req.nextUrl.searchParams.get("url");
-    const headers = Object.fromEntries(req.headers);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     const response = await axios.get(`${MAIN_API}/${url}`, {
@@ -55,7 +52,6 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const url = req.nextUrl.searchParams.get("url");
-    const headers = Object.fromEntries(req.headers);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     const response = await axios.delete(`${MAIN_API}/${url}`, {
@@ -81,10 +77,8 @@ export async function PUT(req: Request) {
     const { serviceUrl } = body;
     delete body.serviceUrl;
     const url = `${MAIN_API}/${serviceUrl}`;
-    console.log(url, "URL");
-    // Get headers from incoming request
-    const headers = Object.fromEntries(req.headers);
     const token = (await cookies()).get("token")?.value;
+    console.log(url, token, "URL TOKEN");
     const response = await axios.put(url, body, {
       headers: {
         "content-type": "application/json",

@@ -7,18 +7,28 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import IconInput from "@/components/main/icon-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
+import TermsDialog from "@/sections/auth/register/cab/components/terms-dialog";
 
 interface Props {
   setStep: (a: number) => void;
 }
 
 export default function PassengerMainInfo({ setStep }: Props) {
-  const { getValues, setError, clearErrors } = useFormContext();
+  const { getValues, setError, clearErrors, control, setValue } =
+    useFormContext();
 
   const nextStep = useCallback(() => {
     let hasError = false;
-    const { email, firstName, lastName, registryNumber, birthday, phone } =
-      getValues();
+    const {
+      email,
+      firstName,
+      lastName,
+      registryNumber,
+      birthday,
+      phone,
+      terms,
+    } = getValues();
 
     // Helper to mark an error and remember that the form has errors
     const markError = (name: string, message = "") => {
@@ -35,6 +45,7 @@ export default function PassengerMainInfo({ setStep }: Props) {
         ["email", email],
         ["registryNumber", registryNumber],
         ["phone", phone],
+        ["terms", terms],
       ] as const
     ).forEach(([key, value]) => {
       if (!value) {
@@ -63,6 +74,10 @@ export default function PassengerMainInfo({ setStep }: Props) {
         clearErrors("registryNumber");
       }
     }
+
+    if (!terms) {
+      markError("terms", "Үйлчилгээний нөхцөлтэй танилцаж зөвшөөрнө үү!");
+    } else clearErrors("terms");
 
     if (!hasError) setStep(2);
   }, [getValues, setError, clearErrors, setStep]);
@@ -119,6 +134,26 @@ export default function PassengerMainInfo({ setStep }: Props) {
             placeholder="Төрсөн огноо"
             type="date"
             desc
+          />
+          <FormField
+            control={control}
+            name="terms"
+            render={() => (
+              <FormItem>
+                <div className="flex items-center gap-3">
+                  <TermsDialog
+                    onAccept={() =>
+                      setValue("terms", true, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                        shouldTouch: true,
+                      })
+                    }
+                  />
+                </div>
+                <FormMessage /> {/* terms алдаа энд харагдана */}
+              </FormItem>
+            )}
           />
         </div>
       </ScrollArea>

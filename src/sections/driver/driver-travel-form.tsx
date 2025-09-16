@@ -50,7 +50,6 @@ export default function DriverTravelForm({ cabId, editD }: Props) {
     const startPlace = editD?.start_place.split("-") || "";
     const endPlace = editD?.end_place.split("-") || "";
     const startTime = editD?.start_time.split(" ") || "";
-    console.log(startTime, "TIME");
 
     return {
       startPlace: aimag(startPlace) || "",
@@ -70,8 +69,12 @@ export default function DriverTravelForm({ cabId, editD }: Props) {
 
   const mutation = useMutation({
     mutationFn: async (body: any) => {
-      const { data } = await axios.post("/api/req", body);
-      return data;
+      if (editD) {
+        const { data } = await axios.put("/api/req", body);
+      } else {
+        const { data } = await axios.post("/api/req", body);
+        return data;
+      }
     },
     onSuccess: () => {
       toast.success("Амжилттай");
@@ -96,10 +99,11 @@ export default function DriverTravelForm({ cabId, editD }: Props) {
       startTime: `${startDateT}T${data.startTime}:00Z`,
       startPlace: `${startPlace} - ${startPlaceSubT}`,
       endPlace: `${endPlace} - ${endPlaceSubT}`,
-      serviceUrl: "api/rides/create",
+      serviceUrl: editD ? `api/rides/edit/${editD?.id}` : "api/rides/create",
       cabId,
     };
-    if (editD) console.log(finalvalue);
+
+    if (editD) mutation.mutate(finalvalue);
     else mutation.mutate(finalvalue);
   }
 

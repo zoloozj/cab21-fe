@@ -25,12 +25,14 @@ export default function MyRideCard({ ride }: Props) {
         label="Зардал"
         value={`${Number(ride.ticket_price).toLocaleString()}₮`}
       />
-      <div className="flex justify-between items-center">
-        <div className="m-0 p-0 flex justify-start gap-2">
+      <div className="relative">
+        <div className="m-0 p-0 flex justify-start gap-2 absolute">
           <EditRideModal ride={ride} />
           <DeleteRideModal ride={ride} />
         </div>
-        <RideDetails key={ride.ride_id} ride={ride} />
+        <div className="flex justify-between items-center">
+          <RideDetails key={ride.ride_id} ride={ride} />
+        </div>
       </div>
     </Card>
   );

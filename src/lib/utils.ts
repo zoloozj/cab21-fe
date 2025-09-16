@@ -34,6 +34,8 @@ export function buildGridRequest(searchParam?: {
   const endSoum = soum(searchParam?.endPlace || "");
   const endAimag = aimag(endSoum?.parent || "");
 
+  const today = new Date().toISOString().slice(0, 10);
+
   const filterModel: FilterModel = {
     start_place: searchParam?.startPlace
       ? {
@@ -49,13 +51,11 @@ export function buildGridRequest(searchParam?: {
           type: "contains",
         }
       : undefined,
-    start_time: searchParam?.startTime
-      ? {
-          filter: searchParam.startTime,
-          filterType: "text",
-          type: "contains",
-        }
-      : undefined,
+    start_time: {
+      filter: searchParam?.startTime || today,
+      filterType: "text",
+      type: "contains",
+    },
   };
 
   return {
@@ -65,4 +65,3 @@ export function buildGridRequest(searchParam?: {
     filterModel,
   };
 }
-

@@ -23,6 +23,11 @@ import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RHFInput from "@/components/hook-form/rhf-input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   ride: Ride;
@@ -77,24 +82,36 @@ export default function OrderRide({ ride }: Props) {
         href="/auth/login?from=/filter"
         className="bg-[#6853BD] flex text-white gap-2 justify-center items-center text-sm rounded-lg font-semibold py-2 px-6 cursor-pointer"
       >
-        {" "}
         Сонгох
         <Iconify icon="solar:arrow-right-linear" color="white" width={20} />
       </Link>
     );
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger disabled={disabled}>
-        <div
-          className={cn(
-            "bg-[#6853BD] flex text-white gap-2 justify-center items-center text-sm rounded-lg font-semibold py-2 px-6 cursor-pointer",
-            disabled && "bg-[#9280db]"
-          )}
-        >
-          Сонгох
-          <Iconify icon="solar:arrow-right-linear" color="white" width={20} />
-        </div>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <DialogTrigger asChild disabled={disabled}>
+              <div
+                className={cn(
+                  "bg-[#6853BD] flex text-white gap-2 justify-center items-center text-sm rounded-lg font-semibold py-2 px-6 cursor-pointer",
+                  disabled && "bg-[#9280db] cursor-not-allowed"
+                )}
+              >
+                Сонгох
+                <Iconify
+                  icon="solar:arrow-right-linear"
+                  color="white"
+                  width={20}
+                />
+              </div>
+            </DialogTrigger>
+            {disabled && (
+              <TooltipContent side="top">Дүүрсэн байна</TooltipContent>
+            )}
+          </div>
+        </TooltipTrigger>
+      </Tooltip>
       <DialogContent>
         <DialogTitle>Та аялалд бүртгүүлэхдээ итгэлтэй байна уу?</DialogTitle>
         {/* <DialogDescription> */}

@@ -59,26 +59,6 @@ export default function CabInfo() {
             placeholder="Суудлын тоо"
             type="number"
           />
-          <FormField
-            control={control}
-            name="terms"
-            render={() => (
-              <FormItem>
-                <div className="flex items-center gap-3">
-                  <TermsDialog
-                    onAccept={() =>
-                      setValue("terms", true, {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                        shouldTouch: true,
-                      })
-                    }
-                  />
-                </div>
-                <FormMessage /> {/* terms алдаа энд харагдана */}
-              </FormItem>
-            )}
-          />
         </div>
       </div>
       <Button type="submit" className="h-12">

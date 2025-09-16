@@ -9,9 +9,10 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Form } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import PasswordForm from "@/sections/auth/components/password-form";
 import PassengerMainInfo from "@/sections/auth/components/main-info";
+import TermsDialog from "../cab/components/terms-dialog";
 
 const FormSchema = z
   .object({
@@ -25,6 +26,9 @@ const FormSchema = z
     email: z.email({ message: "Мэйл хаяг оруулна уу!" }),
     birthday: z.string(),
     phone: z.string(),
+    terms: z.boolean().refine((val) => val === true, {
+      message: "Үйлчилгээний нөхцөлийг зөвшөөрнө үү!",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Нууц үг тохирохгүй байна!",
@@ -44,6 +48,7 @@ export default function PassengerRegisterForm() {
       email: "",
       birthday: undefined,
       phone: "",
+      terms: false,
     },
   });
 
@@ -65,7 +70,7 @@ export default function PassengerRegisterForm() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { confirmPassword, ...rest } = data;
+    const { confirmPassword, terms, ...rest } = data;
     const body = {
       ...rest,
       role: "user",
@@ -81,6 +86,7 @@ export default function PassengerRegisterForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full h-full">
           {step === 1 && <PassengerMainInfo setStep={setStep} />}
+
           {step === 2 && (
             <PasswordForm
               setStep={setStep}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useCallback } from "react";
+import { Loader2Icon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -57,7 +58,6 @@ export default function RideDetails({ ride }: Props) {
       toast.error(error.message);
     },
   });
-
   const handleApproveBooking = useCallback(async (item: Booking) => {
     const body = {
       serviceUrl: "api/booking/bookings/approve",
@@ -79,8 +79,8 @@ export default function RideDetails({ ride }: Props) {
         </CollapsibleTrigger>
         {data?.data?.map((item: Booking, index: number) => (
           <div key={item.id} className="w-full">
-            <Separator className={cn(index === 0 && "hidden")} />
             <CollapsibleContent className="w-full my-2 text-end">
+              <Separator className={cn(index === 0 && "hidden mb-3")} />
               <RideInfo
                 label="Овог нэр"
                 value={`${item.last_name.charAt(0)}. ${item.first_name}`}
@@ -96,21 +96,25 @@ export default function RideDetails({ ride }: Props) {
                   {item?.phone}
                   <Iconify icon="solar:phone-linear" color="white" width={20} />
                 </Link>
-                <Button
-                  type="button"
-                  onClick={() => handleApproveBooking(item)}
-                  disabled={item.status !== "BOOKED"}
-                >
-                  {item.status === "BOOKED" ? "Батлах" : "Баталсан"}
-                  <Iconify
-                    icon={
-                      item.status === "BOOKED"
-                        ? "solar:check-square-linear"
-                        : "solar:check-read-linear"
-                    }
-                    color="white"
-                  />
-                </Button>
+                {mutation.isPending ? (
+                  <Loader2Icon className="animate-spin mx-auto" />
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => handleApproveBooking(item)}
+                    disabled={item.status !== "BOOKED"}
+                  >
+                    {item.status === "BOOKED" ? "Батлах" : "Баталсан"}
+                    <Iconify
+                      icon={
+                        item.status === "BOOKED"
+                          ? "solar:check-square-linear"
+                          : "solar:check-read-linear"
+                      }
+                      color="white"
+                    />
+                  </Button>
+                )}
               </div>
             </CollapsibleContent>
           </div>
