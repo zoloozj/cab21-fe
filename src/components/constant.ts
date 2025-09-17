@@ -21,6 +21,7 @@ export const aimags = [
   { label: "Ховд", value: "20" },
   { label: "Хөвсгөл", value: "21" },
   { label: "Хэнтий", value: "22" },
+  { label: "Орос улс", value: "23" },
 ];
 
 export const soums = [
@@ -31,6 +32,8 @@ export const soums = [
   { label: "Налайх", value: "106", parent: "1" },
   { label: "Багануур", value: "101", parent: "1" },
   { label: "Багахангай", value: "102", parent: "1" },
+  { label: "Улан-Удэ /Улаан-үүд/", value: "2301", parent: "23" },
+  { label: "Иркутск /Эрхүү/", value: "2302", parent: "23" },
   // { label: "Сүхбаатар", value: "107", parent: "1" },
   // { label: "Хан-Уул", value: "108", parent: "1" },
   // { label: "Чингэлтэй", value: "109", parent: "1" },

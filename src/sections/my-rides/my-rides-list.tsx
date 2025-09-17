@@ -8,40 +8,58 @@ import MyRideCard from "./components/my-ride-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMemo } from "react";
+
+type RideStatus = "OPEN" | "FULL" | "INACTIVE"; // <- align with your API
+
+const ALLOWED: RideStatus[] = ["OPEN", "FULL", "INACTIVE"];
+
+function getStatusFromParams(
+  sp: ReturnType<typeof useSearchParams>
+): RideStatus {
+  const raw = sp.get("status")?.toUpperCase();
+  return (ALLOWED as string[]).includes(raw ?? "")
+    ? (raw as RideStatus)
+    : "OPEN";
+}
 
 export default function MyRidesList() {
   const { user } = useUser();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const paramsObject = Object.fromEntries(searchParams.entries());
-  const body = {
-    serviceUrl: "api/rides/checklist/grid",
-    startRow: 0,
-    endRow: 100,
-    sortModel: [{ colId: "id", sort: "desc" }],
-    filterModel: {
-      phone: {
-        filter: `${user?.username}`,
-        filterType: "text",
-        type: "equals",
+  const sp = useSearchParams();
+  const status = getStatusFromParams(sp);
+  const body = useMemo(() => {
+    const username = user?.username ?? "";
+    return {
+      serviceUrl: "api/rides/checklist/grid",
+      startRow: 0,
+      endRow: 100,
+      sortModel: [{ colId: "id", sort: "desc" }],
+      filterModel: {
+        phone: {
+          filter: username,
+          filterType: "text",
+          type: "equals",
+        },
+        ride_status: {
+          filter: status,
+          filterType: "text",
+          type: "equals",
+        },
       },
-      ride_status: {
-        filter: paramsObject?.status ? paramsObject.status : "OPEN",
-        filterType: "text",
-        type: "equals",
-      },
-    },
-  };
+    };
+  }, [user?.username, status]);
   const { data, isPending } = useQuery({
-    queryKey: ["getMyRides", paramsObject],
+    queryKey: ["getMyRides", user?.username ?? null, status],
     queryFn: () => postRequest(body),
+    enabled: !!user?.username,
     staleTime: 30_000,
     refetchOnWindowFocus: false,
   });
-  const handleClick = (status: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("status", status); // add or update
-    router.push(`?${params.toString()}`);
+  const setStatus = (next: RideStatus) => {
+    const params = new URLSearchParams(sp.toString());
+    params.set("status", next);
+    router.replace(`?${params.toString()}`);
   };
   if (isPending)
     return (
@@ -55,21 +73,16 @@ export default function MyRidesList() {
     );
   return (
     <div className="w-full px-4 xl:max-w-7xl xl:mx-auto">
-      <Tabs defaultValue={paramsObject?.status ? paramsObject.status : "OPEN"}>
+      <Tabs value={status} onValueChange={(v) => setStatus(v as RideStatus)}>
         <TabsList className="w-full h-12">
-          <TabsTrigger
-            value="OPEN"
-            className="w-full"
-            onClick={() => handleClick("OPEN")}
-          >
+          <TabsTrigger value="OPEN" className="w-full">
             Нээлттэй
           </TabsTrigger>
-          <TabsTrigger
-            value="CLOSED"
-            className="w-full"
-            onClick={() => handleClick("FULL")}
-          >
+          <TabsTrigger value="FULL" className="w-full">
             Дүүрэн
+          </TabsTrigger>
+          <TabsTrigger value="INACTIVE" className="w-full">
+            Хугацаа дууссан
           </TabsTrigger>
         </TabsList>
       </Tabs>

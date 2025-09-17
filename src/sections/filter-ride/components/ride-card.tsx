@@ -28,12 +28,12 @@ export default function RideCard({ ride }: Props) {
       />
       <div className="flex gap-4 justify-between">
         <Link
-          href={user ? `tel:${user?.phone}` : "/auth/login"}
-          aria-label={`Call ${user?.phone}`}
+          href={ride ? `tel:${ride?.phone}` : "/auth/login"}
+          aria-label={`Call ${ride?.phone}`}
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
           {/* Жолоочтой холбогдох */}
-          {ride?.phone}
+          {user?.phone}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
         <OrderRide ride={ride} />

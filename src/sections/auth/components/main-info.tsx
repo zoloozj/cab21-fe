@@ -79,6 +79,10 @@ export default function PassengerMainInfo({ setStep }: Props) {
       markError("terms", "Үйлчилгээний нөхцөлтэй танилцаж зөвшөөрнө үү!");
     } else clearErrors("terms");
 
+    if (phone.length !== 8) {
+      markError("phone", "Утасны дугаар оруулна уу!");
+    }
+
     if (!hasError) setStep(2);
   }, [getValues, setError, clearErrors, setStep]);
 
