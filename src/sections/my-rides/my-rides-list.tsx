@@ -81,9 +81,9 @@ export default function MyRidesList() {
           <TabsTrigger value="FULL" className="w-full">
             Дүүрэн
           </TabsTrigger>
-          <TabsTrigger value="INACTIVE" className="w-full">
+          {/* <TabsTrigger value="INACTIVE" className="w-full">
             Хугацаа дууссан
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
       </Tabs>
       <div className="flex flex-wrap gap-3 justify-between mt-10">
