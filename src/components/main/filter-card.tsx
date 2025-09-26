@@ -12,12 +12,11 @@ import {
 
 import { Form } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
-import { aimags, soums } from "@/components/constant";
 import { Button } from "@/components/ui/button";
-import IconButton from "@/components/ui/icon-button";
 import { Separator } from "@/components/ui/separator";
 import SelectDate from "@/components/main/components/select-time";
 import SelectFrom from "@/components/main/components/select-from";
+import Iconify from "../ui/iconify";
 
 const FormSchema = z.object({
   startPlace: z.string().nullable().optional(),
@@ -91,11 +90,11 @@ export default function FilterCard() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full overflow-hidden p-4 lg:max-w-2xl lg:mx-auto"
+        className="w-full overflow-hidden p-4 lg:max-w-lg lg:mx-auto"
       >
-        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 md:mx-2 w-full lg:max-w-7xl">
-          <Card className="mx-auto p-0 flex flex-row shadow-2xl w-full">
-            <div className="m-0 py-2 flex flex-row gap-3 justify-evenly w-full">
+        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 md:mx-2 w-full max-w-lg 2xl:max-w-7xl xl:max-w-5xl lg:max-w-4xl">
+          <Card className="mx-auto p-0 flex flex-col sm:flex-row shadow-2xl gap-0">
+            <div className="m-0 py-2 flex flex-row gap-3 justify-evenly flex-1">
               <SelectFrom
                 name="startPlace"
                 icon="lineicons:road-1"
@@ -114,17 +113,11 @@ export default function FilterCard() {
                 placeholder="Өнөөдөр"
                 icon="solar:calendar-outline"
               />
-              {/* <Separator orientation="vertical" />
-              <IconButton
-                title="1 зорчигч"
-                icon="solar:user-circle-outline"
-                color="#98A2B3"
-              /> */}
             </div>
             <Button
               // asChild
               type="submit"
-              className="flex h-15 justify-center items-center px-4 lg:px-10 -m-[1px] bg-[#FFB300] text-white font-bold rounded-r-lg cursor-pointer lg:w-md text-xs lg:text-lg"
+              className="flex sm:h-15 justify-center items-center px-8 lg:px-10 -m-[1px] bg-[#FFB300] text-white font-bold rounded-r-lg cursor-pointer lg:w-sm text-xs lg:text-lg"
               // variant="ghost"
             >
               Хайх

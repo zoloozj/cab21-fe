@@ -70,8 +70,8 @@ export default function HomeCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden xl:flex" />
-        <CarouselNext className="hidden xl:flex" />
+        <CarouselPrevious className="hidden 2xl:flex" />
+        <CarouselNext className="hidden 2xl:flex" />
       </Carousel>
     </div>
   );

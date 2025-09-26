@@ -54,7 +54,7 @@ export default function SelectDate({ name, icon, placeholder }: Props) {
                     size="lg"
                   >
                     <Iconify icon={icon} color="#98A2B3" />
-                    <span>
+                    <span className="tracking-tighter">
                       {field.value
                         ? field.value.toLocaleDateString("en-CA")
                         : placeholder}
