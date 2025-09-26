@@ -19,8 +19,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Хамтдаа аялъя",
+  metadataBase: new URL("https://cab21.zakhzeel.mn"),
+  title: { default: "Аваад явий", template: "%s | Аваад явая" },
   description: "Аваад явий, хамтдаа аялая",
+  openGraph: {
+    type: "website",
+    url: "https://cab21.zakhzeel.mn",
+    title: "Аваад явий",
+    description: "Аваад явий, хамтдаа аялая",
+    siteName: "Аваад явая",
+    images: [{ url: "/og/cover.png" }],
+  },
 };
 
 export default async function RootLayout({
