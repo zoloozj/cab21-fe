@@ -6,7 +6,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUser } from "@/lib/user-provider";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,21 +30,25 @@ export default function Login() {
   const searchParams = useSearchParams();
   const { setUser } = useUser();
 
-  const username = localStorage.getItem("rememberedEmail") || "";
-
   const defaultValues = useMemo(
     () => ({
-      username,
+      username: "",
       password: "",
-      remember: !!username,
+      remember: false,
     }),
-    [username]
+    []
   );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues,
   });
+
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail") || "";
+    form.setValue("username", rememberedEmail, { shouldDirty: false });
+    form.setValue("remember", !!rememberedEmail, { shouldDirty: false });
+  }, []);
 
   const mutation = useMutation({
     mutationFn: async (body: any) => {
