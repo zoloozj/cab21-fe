@@ -14,7 +14,7 @@ const PROTECTED_ROUTES = [
 ]; // add all private routes here
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, origin } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
   const valid = token && (await verifyJwtHS512(token));

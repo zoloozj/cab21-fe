@@ -33,7 +33,7 @@ export default function RideCard({ ride }: Props) {
           className="bg-primary text-white flex gap-2 items-center px-4 rounded-lg text-sm font-semibold"
         >
           {/* Жолоочтой холбогдох */}
-          {user?.phone}
+          {ride?.phone}
           <Iconify icon="solar:phone-linear" color="white" width={20} />
         </Link>
         <OrderRide ride={ride} />
