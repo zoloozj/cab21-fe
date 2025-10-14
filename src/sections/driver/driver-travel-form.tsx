@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Form } from "@/components/ui/form";
@@ -17,6 +17,8 @@ import TravelDateSelect from "./components/travel-date-select";
 import DestinationSelect from "./components/destination-select";
 import axios from "axios";
 import { Ride } from "../types";
+import Link from "next/link";
+import { useUser } from "@/lib/user-provider";
 
 const FormSchema = z.object({
   startPlace: z.string().min(1, { message: "" }),
@@ -29,13 +31,30 @@ const FormSchema = z.object({
   passengerSeat: z.number().min(1, { message: "" }).max(10, { message: "" }),
 });
 
+function useCab() {
+  const { user } = useUser();
+  return useQuery({
+    queryKey: ["cab", "me"],
+    queryFn: async () => {
+      const res = await fetch(`/api/req?url=api/cabs/user/${user?.id}`, {
+        cache: "no-store",
+      });
+      if (res.status === 401) return null;
+      if (!res.ok) throw new Error(`Upstream ${res.status}`);
+      return res.json();
+    },
+    staleTime: 0,
+    retry: 1,
+  });
+}
+
 interface Props {
-  cabId: number;
   editD?: Ride;
 }
 
-export default function DriverTravelForm({ cabId, editD }: Props) {
+export default function DriverTravelForm({ editD }: Props) {
   const router = useRouter();
+
   const aimag = (aimag: string[] | ""): string | undefined => {
     return aimags.find((x) => x.label === aimag[0]?.trim())?.value;
   };
@@ -62,6 +81,10 @@ export default function DriverTravelForm({ cabId, editD }: Props) {
       passengerSeat: editD?.capacity || 1,
     };
   }, [editD]);
+
+  const { data: cab, isLoading, error } = useCab();
+  const cabId = cab?.id;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues,
@@ -102,12 +125,37 @@ export default function DriverTravelForm({ cabId, editD }: Props) {
       serviceUrl: editD ? `api/rides/edit/${editD?.id}` : "api/rides/create",
       cabId,
     };
-
-    if (editD) mutation.mutate(finalvalue);
-    else mutation.mutate(finalvalue);
+    console.log(finalvalue);
+    // if (editD) mutation.mutate(finalvalue);
+    // else mutation.mutate(finalvalue);
   }
 
   const [step, setStep] = useState(1);
+  if (isLoading) return <div className="mt-3 text-center">Ачааллаж байна…</div>;
+  if (error)
+    return (
+      <div className="mt-3 text-center text-destructive">Алдаа гарлаа</div>
+    );
+
+  if (!cab) {
+    return (
+      <div className="mt-3">
+        <p className="text-center text-muted-foreground">
+          Та тээврийн хэрэгслийн мэдээлэл оруулаагүй байна!
+        </p>
+        <div className="flex gap-3 text-muted-foreground justify-center">
+          <Link
+            href="/cab"
+            className="text-primary underline block text-center font-semibold"
+          >
+            Энд{" "}
+          </Link>
+          дарж мэдээллээ оруулна уу!
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
       <form
