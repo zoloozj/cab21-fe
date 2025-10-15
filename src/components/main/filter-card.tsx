@@ -110,7 +110,7 @@ export default function FilterCard() {
               <Separator orientation="vertical" />
               <SelectDate
                 name="startTime"
-                placeholder="Өнөөдөр"
+                placeholder="Хэзээ"
                 icon="solar:calendar-outline"
               />
             </div>

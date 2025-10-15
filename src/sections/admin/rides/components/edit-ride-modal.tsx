@@ -8,7 +8,7 @@ import {
 import Iconify from "@/components/ui/iconify";
 import { Button } from "@/components/ui/button";
 import { Ride } from "@/sections/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DriverTravelForm from "@/sections/driver/driver-travel-form";
 
 interface Props {
@@ -17,8 +17,6 @@ interface Props {
 
 export default function EditRideModal({ ride }: Props) {
   const [open, setOpen] = useState(false);
-  const [cab, setCab] = useState<any>();
-  useEffect(() => {}, []);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -33,7 +31,7 @@ export default function EditRideModal({ ride }: Props) {
             Та {ride.start_time} цагт хөдлөх аялалыг устгах гэж байна!
           </DialogDescription> */}
         </DialogHeader>
-        <DriverTravelForm cabId={1} editD={ride} />
+        <DriverTravelForm editD={ride} />
       </DialogContent>
     </Dialog>
   );
