@@ -84,7 +84,7 @@ export default async function Header() {
     ) : (
       <Link href="/auth/login">
         <IconButton
-          icon="streamline-ultimate:login-key"
+          icon="solar:user-circle-linear"
           title=" Нэвтрэх"
           className="cursor-pointer"
         />
