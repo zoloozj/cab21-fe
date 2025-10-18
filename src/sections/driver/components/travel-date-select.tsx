@@ -25,7 +25,7 @@ export default function TravelDateSelect({ setStep }: Props) {
   const disabled = !startDate || !startTime;
 
   return (
-    <div className="flex flex-col h-full overflow-hidden text-center">
+    <div className="flex flex-col h-full text-center">
       <p className="font-semibold my-4">Та хэзээ явхаар төлөвлөж байна вэ?</p>
       <ScrollArea className="flex-1 min-h-0 py-2">
         <FormField
@@ -56,21 +56,21 @@ export default function TravelDateSelect({ setStep }: Props) {
                   date < new Date(new Date().setHours(0, 0, 0, 0))
                 }
                 captionLayout="dropdown"
-                className="w-full mb-5"
+                className="w-full mb-5 h-full"
               />
               <FormMessage />
             </FormItem>
           )}
         />
-        <RHFInput
-          name="startTime"
-          placeholder="Явах цаг"
-          type="time"
-          step="60"
-          lang="en-GB"
-          className="text-center h-12"
-        />
       </ScrollArea>
+      <RHFInput
+        name="startTime"
+        placeholder="Явах цаг"
+        type="time"
+        step="60"
+        lang="en-GB"
+        className="text-center h-12 w-1/2 mx-auto bg-white"
+      />
       <PrevNextBtn step={3} setStep={setStep} disabled={disabled} />
     </div>
   );

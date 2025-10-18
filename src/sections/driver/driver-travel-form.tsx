@@ -76,7 +76,7 @@ export default function DriverTravelForm({ editD }: Props) {
       endPlace: aimag(endPlace) || "",
       endPlaceSub: soum(endPlace, aimag(endPlace)) || "",
       startDate: editD ? new Date(startTime[0]) : undefined,
-      startTime: editD ? startTime[1] : "",
+      startTime: editD ? startTime[1] : "18:00",
       ticketPrice: editD?.ticket_price || 0,
       passengerSeat: editD?.capacity || 1,
     };
