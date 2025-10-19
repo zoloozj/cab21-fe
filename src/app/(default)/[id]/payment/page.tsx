@@ -7,5 +7,5 @@ interface Props {
 }
 
 export default function PaymentPage({ params: { id } }: Props) {
-  return <ChoosePaymentMethod id={id} />;
+  return <ChoosePaymentMethod driverId={id} />;
 }

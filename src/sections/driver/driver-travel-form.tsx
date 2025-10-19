@@ -125,9 +125,8 @@ export default function DriverTravelForm({ editD }: Props) {
       serviceUrl: editD ? `api/rides/edit/${editD?.id}` : "api/rides/create",
       cabId,
     };
-    console.log(finalvalue);
-    // if (editD) mutation.mutate(finalvalue);
-    // else mutation.mutate(finalvalue);
+    if (editD) mutation.mutate(finalvalue);
+    else mutation.mutate(finalvalue);
   }
 
   const [step, setStep] = useState(1);
