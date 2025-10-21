@@ -2,15 +2,13 @@
 
 import { postRequest } from "@/lib/request";
 import { Card } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/utils";
+import Iconify from "@/components/ui/iconify";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/loader";
 import { SubscriptionPlan } from "@/sections/types";
-import Iconify from "@/components/ui/iconify";
-import { formatCurrency } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Icon } from "lucide-react";
-import EditPlanDialog from "./components/edit-plan-dialog";
 import AddPlanDialog from "./components/add-plan-dialog";
+import EditPlanDialog from "./components/edit-plan-dialog";
 
 export default function PaymentList() {
   const body = {

@@ -3,18 +3,17 @@
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "sonner";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { Form } from "@/components/ui/form";
-import PasswordInput from "@/app/auth/components/password-input";
-import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { SubscriptionPlan } from "@/sections/types";
 import RHFInput from "@/components/hook-form/rhf-input";
 import RFHCheckbox from "@/components/hook-form/rhf-checkbox";
-import { SubscriptionPlan } from "@/sections/types";
-import { useMemo } from "react";
 
 const FormSchema = z.object({
   code: z.string().min(4, { message: "Заавал бөглөх талбар" }),
