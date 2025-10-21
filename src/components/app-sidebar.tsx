@@ -56,6 +56,12 @@ export function AppSidebar({ ...props }: Props) {
           },
         ],
       },
+      {
+        title: "Төлбөрийн мэдээлэл",
+        url: "/admin/payments",
+        items: [],
+        isActive: "/admin/payments" === pathname,
+      },
     ],
   };
 
