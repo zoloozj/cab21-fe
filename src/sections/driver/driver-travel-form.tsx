@@ -94,6 +94,7 @@ export default function DriverTravelForm({ editD }: Props) {
     mutationFn: async (body: any) => {
       if (editD) {
         const { data } = await axios.put("/api/req", body);
+        return data;
       } else {
         const { data } = await axios.post("/api/req", body);
         return data;
@@ -125,8 +126,7 @@ export default function DriverTravelForm({ editD }: Props) {
       serviceUrl: editD ? `api/rides/edit/${editD?.id}` : "api/rides/create",
       cabId,
     };
-    if (editD) mutation.mutate(finalvalue);
-    else mutation.mutate(finalvalue);
+    mutation.mutate(finalvalue);
   }
 
   const [step, setStep] = useState(1);
