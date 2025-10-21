@@ -65,3 +65,8 @@ export function buildGridRequest(searchParam?: {
     filterModel,
   };
 }
+
+export function formatCurrency(amount: number | null): string {
+  if(amount === null) return "0";
+  return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

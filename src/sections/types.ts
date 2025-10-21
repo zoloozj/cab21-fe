@@ -88,3 +88,14 @@ export type RideBooking = {
   last_name: string;
   phone: string;
 };
+
+
+export type SubscriptionPlan = {
+  id: number;
+  code: string;
+  name: string;
+  duration_months: number;
+  is_active: boolean;
+  price: number;
+  created_at: string; // ISO datetime strin
+}

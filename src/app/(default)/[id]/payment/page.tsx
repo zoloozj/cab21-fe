@@ -8,5 +8,5 @@ interface Props {
 
 export default async function PaymentPage({ params }: Props) {
   const { id } = await params;
-  return <ChoosePaymentMethod id={id} />;
+  return <ChoosePaymentMethod driverId={id} />;
 }
