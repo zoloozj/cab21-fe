@@ -1,11 +1,12 @@
 import ChoosePaymentMethod from "@/sections/payment/choose-payment-method";
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function PaymentPage({ params: { id } }: Props) {
+export default async function PaymentPage({ params }: Props) {
+  const { id } = await params;
   return <ChoosePaymentMethod driverId={id} />;
 }
