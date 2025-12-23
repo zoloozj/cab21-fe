@@ -7,7 +7,7 @@ import QueryProvider from "@/lib/query-provider";
 import { getCurrentUser } from "@/lib/auth";
 import UserProvider from "@/lib/user-provider";
 import { LoaderWrapper } from "@/components/main/loader-wrapper";
-import MessengerChat from "@/components/messenger-chat";
+// import MessengerChat from "@/components/messenger-chat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,7 +47,7 @@ export default async function RootLayout({
         <UserProvider initialUser={user}>
           <QueryProvider>
             <LoaderWrapper>{children}</LoaderWrapper>
-            <MessengerChat />
+            {/* <MessengerChat /> */}
           </QueryProvider>
         </UserProvider>
         <Toaster />

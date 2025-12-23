@@ -14,7 +14,7 @@ const PROTECTED_ROUTES = [
 ]; // add all private routes here
 
 export async function middleware(request: NextRequest) {
-  const { pathname, origin } = request.nextUrl;
+  const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
   const valid = token && (await verifyJwtHS512(token));
@@ -33,11 +33,10 @@ export async function middleware(request: NextRequest) {
     const loginUrl = new URL("/auth/login", baseUrl);
     loginUrl.searchParams.set("from", pathname); // redirect back after login
     return NextResponse.redirect(loginUrl);
-  } else {
-    if (pathname.startsWith("/auth") && valid) {
+  } else if (pathname.startsWith("/auth") && valid) {
       const homeUrl = new URL("/", baseUrl);
       return NextResponse.redirect(homeUrl);
-    }
+    
   }
 
   const user = await getCurrentUser();

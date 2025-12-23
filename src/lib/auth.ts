@@ -10,13 +10,13 @@ export type User = {
   firstName?: string;
   lastName?: string;
   email: string;
-  role: "user" | "admin" | string;
+  role: string;
   birthday?: number;
   registryNumber?: string;
   phone: string;
 };
 
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET!); // HS512 shared secret
+const SECRET = new TextEncoder().encode("Vx93mA7tqL1yW5eK9pB2cZ8sR4nH6uJ0fD3gT7iM1vP9xQ4lS8oE2rY6bU0wC5kN"); // HS512 shared secret
 
 type Claims = JWTPayload & {
   uid?: number; // таны payload: { uid: 6, role: "user", sub: "email", ... }
@@ -31,6 +31,7 @@ export async function verifyJwtHS512(token: string): Promise<Claims | null> {
     });
     return payload as Claims;
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
@@ -51,6 +52,7 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (!token) return null;
+  // console.log(token)
   const response = await fetch(`${MAIN_API}/api/user/get`, {
     headers: {
       Authorization: `Bearer ${token}`,
