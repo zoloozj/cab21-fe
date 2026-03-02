@@ -131,10 +131,6 @@ export default function DriverTravelForm({ editD }: Props) {
 
   const [step, setStep] = useState(1);
   if (isLoading) return <div className="mt-3 text-center">Ачааллаж байна…</div>;
-  if (error)
-    return (
-      <div className="mt-3 text-center text-destructive">Алдаа гарлаа</div>
-    );
 
   if (!cab) {
     return (
