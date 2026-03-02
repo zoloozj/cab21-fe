@@ -1,1 +1,1 @@
-export const MAIN_API = "https://cab21.online/cab21";
+export const MAIN_API = process.env.MAIN_API;

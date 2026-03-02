@@ -50,7 +50,7 @@ export default async function RootLayout({
             {/* <MessengerChat /> */}
           </QueryProvider>
         </UserProvider>
-        <Toaster />
+            <Toaster />
       </body>
     </html>
   );

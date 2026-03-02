@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const incoming = await req.json();
 
-    const url = `${MAIN_API}/api/user/update`;
+    const url = `${MAIN_API}/api/api/user/update`;
     const currentToken = (await cookies()).get("token")?.value;
     const upstream = await fetch(url, {
       method: "POST",

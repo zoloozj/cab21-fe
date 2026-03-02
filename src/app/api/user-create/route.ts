@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const url = `${MAIN_API}/api/user/create`;
+    const url = `${MAIN_API}/api/api/user/create`;
     const response = await axios.post(url, body, {
       headers: { "Content-Type": "application/json" },
     });

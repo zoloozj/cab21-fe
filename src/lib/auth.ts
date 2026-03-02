@@ -60,7 +60,6 @@ export async function getCurrentUser(): Promise<User | null> {
     },
     cache: "no-store", // ❗ кэшлэхгүй
   });
-
   if (!response.ok) return null;
 
   // ❗ заавал await
@@ -74,21 +73,21 @@ export async function getUserCab() {
   if (!token) return null;
 
   const payload = await verifyJwtHS512(token);
+  const id = Number((payload as Claims | null)?.uid);
+  if (!Number.isFinite(id)) return null;
 
   try {
-    const id = Number((payload as any).uid);
     const res = await fetch(`${MAIN_API}/api/cabs/user/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
-      cache: "no-store", // сервер талаас cache үлдээхгүй
+      cache: "no-store", // сервер талаас cache үлдээхгүй, // fetch retry-ийг хаах (Next.js 13.4+)
+      
     });
 
-    if (!res.ok) {
-      throw new Error(`Fetch failed with status ${res.status}`);
-    }
+    if (!res.ok) return null;
 
     return await res.json();
   } catch {

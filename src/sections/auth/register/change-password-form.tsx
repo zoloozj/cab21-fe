@@ -48,9 +48,10 @@ export default function ChangePasswordForm() {
     },
     onError: (error: any) => {
       toast.error(
-        error.response.data.error || "Алдаа гарлаа, дахин оролдоно уу!",
+        error?.response?.data?.error?.error || "Алдаа гарлаа, дахин оролдоно уу!",
         { position: "top-center" }
       );
+      console.log(error, "ERROR");
     },
   });
 

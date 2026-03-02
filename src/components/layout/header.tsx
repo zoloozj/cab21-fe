@@ -20,8 +20,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function Header() {
-  const user = await getCurrentUser();
 
+  const user = await getCurrentUser();
+  console.log(user, "USER")
   const ActionButton = () => (
     <>
       <Link href="filter">
@@ -39,7 +40,6 @@ export default async function Header() {
 
   const UserButton = () => {
     return user ? (
-      <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {/* <Button variant="outline"> */}
@@ -80,7 +80,6 @@ export default async function Header() {
             <Logout />
           </DropdownMenuContent>
         </DropdownMenu>
-      </>
     ) : (
       <Link href="/auth/login">
         <IconButton
