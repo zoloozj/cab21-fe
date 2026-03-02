@@ -22,7 +22,6 @@ export const revalidate = 0;
 export default async function Header() {
 
   const user = await getCurrentUser();
-  console.log(user, "USER")
   const ActionButton = () => (
     <>
       <Link href="filter">
