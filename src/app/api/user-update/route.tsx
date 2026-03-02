@@ -1,14 +1,14 @@
 // app/api/req/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { MAIN_API } from "@/config-global";
+import { getValidTokenOrNull } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
     const incoming = await req.json();
 
     const url = `${MAIN_API}/api/api/user/update`;
-    const currentToken = (await cookies()).get("token")?.value;
+    const currentToken = await getValidTokenOrNull();
     const upstream = await fetch(url, {
       method: "POST",
       headers: {
